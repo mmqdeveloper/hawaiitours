@@ -20,7 +20,7 @@
       }
 
       .left {
-        flex: 1;
+        flex: 0.5;
         text-align: center;
 
         img {
@@ -37,13 +37,16 @@
         form {
           display: flex;
           flex-wrap: wrap;
+          flex-direction: column;
           gap: 30px;
           justify-content: space-between;
           padding: 0 20px;
 
           .formInput {
             width: 40%;
-
+            img{
+              width: 20%;
+            }
             label {
               display: flex;
               align-items: center;

@@ -1,23 +1,20 @@
 import mongoose from "mongoose";
 const CategorySchema = new mongoose.Schema(
   {
-    title: {
+    name: {
       type: String,
       required: true,
     },
-    price: {
-      type: Number,
-      required: true,
+    description: {
+      type: String,
     },
-    maxPeople: {
-      type: Number,
-      required: true,
-    },
-    desc: {
+    slug: {
       type: String,
       required: true,
     },
-    roomNumbers: [{ number: Number, unavailableDates: {type: [Date]}}],
+    image: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
