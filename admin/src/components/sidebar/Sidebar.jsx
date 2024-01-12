@@ -51,7 +51,7 @@ const Sidebars = () => {
                     Product Manager
                   </MenuItem>
               </Link>
-              <Link to="/categories" style={{ textDecoration: "none" }}>
+              <Link to="/category" style={{ textDecoration: "none" }}>
                   <MenuItem>
                     Categories Manager
                   </MenuItem>
