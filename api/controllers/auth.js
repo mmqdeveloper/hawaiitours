@@ -2,15 +2,50 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+import errors from "../constants/errors.js";
+import { validationResult } from 'express-validator';
+import { authValidations } from "../validations/authValidations.js";
 
 export const register = async (req, res, next) => {
   try {
+    const registerReq = req.body;
+    const {error} = authValidations.registerValidation.validate(registerReq);
+    
+    if (error) {
+      return res.status(400).json({message: error.details[0].message});
+    }
+   
+    const token = req.cookies.access_token;
+    if (token) {
+      try {
+        const decoded = jwt.verify(token, process.env.JWT);
+        if (decoded && decoded.isAdmin) {
+          reqIsAdmin = registerReq.isAdmin;
+          
+        }
+      } catch (err) {
+        console.error("JWT verification error:", err);
+      }
+    }
+
+    const checkExistedUsername = await User.findOne({username: registerReq.username});
+    if (checkExistedUsername) return next(createError(errors.EXISTED_USERNAME.status, errors.EXISTED_USERNAME.message));
+
+    const checkExistedEmail = await User.findOne({ email: registerReq.email });
+    if (checkExistedEmail) return next(createError(errors.EXISTED_EMAIL.status, errors.EXISTED_EMAIL.message));
+
+    const checkExistedPhone = await User.findOne({ phone: registerReq.phone })
+    if (checkExistedPhone) return next(createError(errors.EXISTED_PHONE.status, errors.EXISTED_PHONE.message));
+
+
+    var reqIsAdmin = false;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
     const newUser = new User({
-      ...req.body,
+      ...registerReq,
       password: hash,
+      isAdmin: reqIsAdmin,
     });
 
     await newUser.save();
@@ -35,7 +70,6 @@ export const login = async (req, res, next) => {
       { id: user._id, isAdmin: user.isAdmin },
       process.env.JWT
     );
-
     const { password, isAdmin, ...otherDetails } = user._doc;
     res
       .cookie("access_token", token, {
