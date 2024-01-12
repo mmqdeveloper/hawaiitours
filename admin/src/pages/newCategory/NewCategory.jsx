@@ -1,4 +1,4 @@
-import "./newRoom.scss";
+import "./newCategory.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 const NewCategory = () => {
   const [info, setInfo] = useState({});
-  const [productId, setProductId] = useState(undefined);
+  const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
 
   const { data, loading, error } = useFetch("/product");
@@ -20,9 +20,27 @@ const NewCategory = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const categoryNumbers = category.split(",").map((category) => ({ number: category }));
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "upload");
     try {
-      await axios.post(`/category/${productId}`, { ...info, categoryNumbers });
+      let url;
+
+      if (file) {
+        const uploadRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
+          data
+        );
+        url = uploadRes.data.url;
+      } else {
+        url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+      }
+
+      const newCategory = {
+        ...info,
+        image: url,
+      };
+      await axios.post(`/category/add`, newCategory );
     } catch (err) {
       console.log(err);
     }
@@ -35,7 +53,7 @@ const NewCategory = () => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add New Room</h1>
+          <h1>Add New Category</h1>
         </div>
         <div className="bottom">
           <div className="right">
@@ -52,13 +70,35 @@ const NewCategory = () => {
                 </div>
               ))}
               <div className="formInput">
-                <label>Category</label>
-                <textarea
-                  onChange={(e) => setRooms(e.target.value)}
-                  placeholder="give comma between category numbers."
+                <label>Description</label>
+                <input
+                  id="description"
+                  type="text"
+                  placeholder=""
+                  onChange={handleChange}
                 />
               </div>
               <div className="formInput">
+                <label>Image</label>
+                <img
+                  src={
+                    file
+                      ? URL.createObjectURL(file)
+                      : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                  }
+                  alt=""
+                />
+                <label htmlFor="file">
+                  <DriveFolderUploadOutlinedIcon className="icon" />
+                </label>
+                <input
+                  type="file"
+                  id="file"
+                  onChange={(e) => setFile(e.target.files[0])}
+                  style={{ display: "none" }}
+                />
+              </div>
+              {/* <div className="formInput">
                 <label>Choose a Product</label>
                 <select
                   id="productId"
@@ -71,7 +111,7 @@ const NewCategory = () => {
                         <option key={product._id} value={product._id}>{product.name}</option>
                       ))}
                 </select>
-              </div>
+              </div> */}
               <button onClick={handleClick}>Send</button>
             </form>
           </div>

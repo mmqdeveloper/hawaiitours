@@ -3,18 +3,9 @@ import Product from "../models/Product.js";
 import { createError } from "../utils/error.js";
 
 export const createCategory = async (req, res, next) => {
-  const hotelId = req.params.hotelid;
   const newCategory = new Category(req.body);
-
   try {
     const savedCategory = await newCategory.save();
-    try {
-      await Hotel.findByIdAndUpdate(hotelId, {
-        $push: { categorys: savedCategory._id },
-      });
-    } catch (err) {
-      next(err);
-    }
     res.status(200).json(savedCategory);
   } catch (err) {
     next(err);
@@ -49,16 +40,8 @@ export const updateCategoryAvailability = async (req, res, next) => {
   }
 };
 export const deleteCategory = async (req, res, next) => {
-  const hotelId = req.params.hotelid;
   try {
     await Category.findByIdAndDelete(req.params.id);
-    try {
-      await Hotel.findByIdAndUpdate(hotelId, {
-        $pull: { categorys: req.params.id },
-      });
-    } catch (err) {
-      next(err);
-    }
     res.status(200).json("Category has been deleted.");
   } catch (err) {
     next(err);
@@ -72,10 +55,10 @@ export const getCategory = async (req, res, next) => {
     next(err);
   }
 };
-export const getCategorys = async (req, res, next) => {
+export const getCategories = async (req, res, next) => {
   try {
-    const categorys = await Category.find();
-    res.status(200).json(categorys);
+    const category = await Category.find();
+    res.status(200).json(category);
   } catch (err) {
     next(err);
   }

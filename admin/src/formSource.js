@@ -200,27 +200,21 @@ export const productInputs = [
 
 export const categoryInputs = [
   {
-    id: "title",
-    label: "Title",
+    id: "name",
+    label: "Name",
     type: "text",
-    placeholder: "2 bed room",
+    placeholder: "",
   },
+  // {
+  //   id: "description",
+  //   label: "Description",
+  //   type: "text",
+  //   placeholder: "",
+  // },
   {
-    id: "desc",
-    label: "Description",
+    id: "slug",
+    label: "Slug",
     type: "text",
-    placeholder: "King size bed, 1 bathroom",
-  },
-  {
-    id: "price",
-    label: "Price",
-    type: "number",
-    placeholder: "100",
-  },
-  {
-    id: "maxPeople",
-    label: "Max People",
-    type: "number",
-    placeholder: "2",
+    placeholder: "",
   },
 ];

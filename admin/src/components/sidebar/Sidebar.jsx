@@ -16,7 +16,7 @@ const Sidebars = () => {
         <Menu>
           <Link to="/" style={{ textDecoration: "none" }}>
             <MenuItem className="menu1">
-              <h2>SUPER HOTELS</h2>
+              <h2>SUPER TOURS</h2>
             </MenuItem>
           </Link>
           <Menu iconShape="circle" style={{ textDecoration: "none" }}>

@@ -28,7 +28,7 @@ const New = ({ inputs, title }) => {
 
       const newUser = {
         ...info,
-        img: url,
+        image: url,
       };
 
       await axios.post("/auth/register", newUser);

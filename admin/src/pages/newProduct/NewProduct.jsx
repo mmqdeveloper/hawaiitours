@@ -10,7 +10,7 @@ import axios from "axios";
 const NewProduct = () => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
-  const [categories, setCategories] = useState([]);
+  const [category, setCategory] = useState([]);
 
   const { data, loading, error } = useFetch("/category");
 
@@ -23,7 +23,7 @@ const NewProduct = () => {
       e.target.selectedOptions,
       (option) => option.value
     );
-    setCategories(value);
+    setCategory(value);
   };
   
   console.log(files)
@@ -108,7 +108,7 @@ const NewProduct = () => {
                 </select>
               </div>
               <div className="selectCategory">
-                <label>Categories</label>
+                <label>Category</label>
                 <select id="category" multiple onChange={handleSelect}>
                   {loading
                     ? "loading"
