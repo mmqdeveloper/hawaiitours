@@ -24,12 +24,17 @@ const NewCategory = () => {
     data.append("file", file);
     data.append("upload_preset", "upload");
     try {
-      const uploadRes = await axios.post(
-        "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
-        data
-      );
+      let url;
 
-      const { url } = uploadRes.data;
+      if (file) {
+        const uploadRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
+          data
+        );
+        url = uploadRes.data.url;
+      } else {
+        url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+      }
 
       const newCategory = {
         ...info,
@@ -64,6 +69,15 @@ const NewCategory = () => {
                   />
                 </div>
               ))}
+              <div className="formInput">
+                <label>Description</label>
+                <input
+                  id="description"
+                  type="text"
+                  placeholder=""
+                  onChange={handleChange}
+                />
+              </div>
               <div className="formInput">
                 <label>Image</label>
                 <img

@@ -205,12 +205,12 @@ export const categoryInputs = [
     type: "text",
     placeholder: "",
   },
-  {
-    id: "description",
-    label: "Description",
-    type: "text",
-    placeholder: "",
-  },
+  // {
+  //   id: "description",
+  //   label: "Description",
+  //   type: "text",
+  //   placeholder: "",
+  // },
   {
     id: "slug",
     label: "Slug",
