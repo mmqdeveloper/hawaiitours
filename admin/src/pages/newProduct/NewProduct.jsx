@@ -114,7 +114,7 @@ const NewProduct = () => {
                     ? "loading"
                     : data &&
                       data.map((category) => (
-                        <option key={room._id} value={category._id}>
+                        <option key={category._id} value={category._id}>
                           {category.title}
                         </option>
                       ))}

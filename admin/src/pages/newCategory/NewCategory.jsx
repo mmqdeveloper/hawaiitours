@@ -7,9 +7,9 @@ import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
-const NewRoom = () => {
+const NewCategory = () => {
   const [info, setInfo] = useState({});
-  const [hotelId, setHotelId] = useState(undefined);
+  const [productId, setProductId] = useState(undefined);
   const [category, setCategory] = useState([]);
 
   const { data, loading, error } = useFetch("/product");
@@ -20,9 +20,9 @@ const NewRoom = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
-    const roomNumbers = category.split(",").map((room) => ({ number: category }));
+    const categoryNumbers = category.split(",").map((category) => ({ number: category }));
     try {
-      await axios.post(`/category/${hotelId}`, { ...info, categoryNumbers });
+      await axios.post(`/category/${productId}`, { ...info, categoryNumbers });
     } catch (err) {
       console.log(err);
     }
@@ -62,7 +62,7 @@ const NewRoom = () => {
                 <label>Choose a Product</label>
                 <select
                   id="productId"
-                  onChange={(e) => setHotelId(e.target.value)}
+                  onChange={(e) => setProductId(e.target.value)}
                 >
                   {loading
                     ? "loading"
@@ -81,4 +81,4 @@ const NewRoom = () => {
   );
 };
 
-export default NewRoom;
+export default NewCategory;
