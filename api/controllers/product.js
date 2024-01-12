@@ -1,5 +1,5 @@
 import Product from "../models/Product.js";
-import Categories from "../models/Categories.js";
+import Category from "../models/Category.js";
 
 export const createProduct = async (req, res, next) => {
   const newProduct = new Product(req.body);
@@ -13,12 +13,12 @@ export const createProduct = async (req, res, next) => {
 };
 export const updateProduct = async (req, res, next) => {
   try {
-    const updateProduct = await Product.findByIdAndUpdate(
+    const updatedProduct = await Product.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
       { new: true }
     );
-    res.status(200).json(updateProduct);
+    res.status(200).json(updatedProduct);
   } catch (err) {
     next(err);
   }
@@ -40,23 +40,56 @@ export const getProduct = async (req, res, next) => {
   }
 };
 export const getProducts = async (req, res, next) => {
-  const { ...others } = req.query;
+  const { min, max, ...others } = req.query;
   try {
     const products = await Product.find({
       ...others,
+      cheapestPrice: { $gt: min | 1, $lt: max || 999 },
     }).limit(req.query.limit);
     res.status(200).json(products);
   } catch (err) {
     next(err);
   }
 };
+export const countByCity = async (req, res, next) => {
+  const cities = req.query.cities.split(",");
+  try {
+    const list = await Promise.all(
+      cities.map((city) => {
+        return Product.countDocuments({ city: city });
+      })
+    );
+    res.status(200).json(list);
+  } catch (err) {
+    next(err);
+  }
+};
+export const countByType = async (req, res, next) => {
+  try {
+    const productCount = await Product.countDocuments({ type: "product" });
+    const apartmentCount = await Product.countDocuments({ type: "apartment" });
+    const resortCount = await Product.countDocuments({ type: "resort" });
+    const villaCount = await Product.countDocuments({ type: "villa" });
+    const cabinCount = await Product.countDocuments({ type: "cabin" });
 
-export const getProductCategories = async (req, res, next) => {
+    res.status(200).json([
+      { type: "product", count: productCount },
+      { type: "apartments", count: apartmentCount },
+      { type: "resorts", count: resortCount },
+      { type: "villas", count: villaCount },
+      { type: "cabins", count: cabinCount },
+    ]);
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const getProductCategory = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
     const list = await Promise.all(
-      product.categories.map((category) => {
-        return Categories.findById(category);
+      product.category.map((room) => {
+        return Category.findById(room);
       })
     );
     res.status(200).json(list)
