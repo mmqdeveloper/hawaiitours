@@ -52,7 +52,7 @@ const NewProduct = () => {
         photos: list,
       };
 
-      await axios.post("/product", newproduct);
+      await axios.post("/product/add", newproduct);
     } catch (err) {console.log(err)}
   };
   return (

@@ -60,30 +60,6 @@ export const hotelColumns = [
   },
 ];
 
-export const productColumns = [
-  { field: "_id", headerName: "ID", width: 250 },
-  {
-    field: "name",
-    headerName: "Name",
-    width: 150,
-  },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 100,
-  },
-  {
-    field: "title",
-    headerName: "Title",
-    width: 230,
-  },
-  {
-    field: "city",
-    headerName: "City",
-    width: 100,
-  },
-];
-
 export const roomColumns = [
   { field: "_id", headerName: "ID", width: 70 },
   {
@@ -105,6 +81,90 @@ export const roomColumns = [
     field: "maxPeople",
     headerName: "Max People",
     width: 100,
+  },
+];
+
+export const productColumns = [
+  { field: "_id", headerName: "ID", width: 250 },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 200,
+  },
+  {
+    field: "sku",
+    headerName: "SKU",
+    width: 200,
+  },
+  {
+    field: "price",
+    headerName: "Price",
+    width: 230,
+  },
+  {
+    field: "category",
+    headerName: "Categories",
+    width: 200,
+  },
+  {
+    field: "tags",
+    headerName: "Tags",
+    width: 200,
+  },
+  {
+    field: "author",
+    headerName: "Author",
+    width: 200,
+  },
+  {
+    field: "badge",
+    headerName: "Badge",
+    width: 200,
+  },
+  {
+    field: "commission_rate",
+    headerName: "Commission Rate",
+    width: 200,
+  },
+  {
+    field: "product_notes",
+    headerName: "Product Notes",
+    width: 200,
+  },
+  {
+    field: "pickup",
+    headerName: "Pickup",
+    width: 200,
+  },
+  {
+    field: "hero_image",
+    headerName: "Hero Image",
+    width: 300,
+  },
+  {
+    field: "seo_title",
+    headerName: "SEO Title",
+    width: 200,
+  },
+  {
+    field: "meta_desc",
+    headerName: "Meta Desc",
+    width: 200,
+  },
+  {
+    field: "keyphrase",
+    headerName: "Keyphrase",
+    width: 200,
+  },
+  {
+    field: "vendor",
+    headerName: "Vendor",
+    width: 200,
+  },
+  {
+    field: "api",
+    headerName: "API",
+    width: 200,
   },
 ];
 

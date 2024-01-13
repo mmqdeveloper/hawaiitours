@@ -6,30 +6,48 @@ const ProductSchema = new mongoose.Schema({
     },
     desc: {
       type: String,
-      required: true,
     },
-    product_image: {
+    price: {
       type: [String],
     },
-    product_gallery: {
+    categories: {
       type: [String],
     },
-    product_tags: {
-      type: String,
-    },
-    product_notes: {
+    tags: {
       type: String,
     },
     author: {
       type: String,
     },
-    categories: {
-      type: [String],
+    badge: {
+      type: String,
     },
-    rating: {
+    commission_rate: {
       type: Number,
-      min: 0,
-      max: 5,
+    },
+    product_notes: {
+      type: String,
+    },
+    pickup: {
+      type: String,
+    },
+    hero_image: {
+      type: String,
+    },
+    seo_title: {
+      type: String,
+    },
+    meta_desc: {
+      type: String,
+    },
+    keyphrase: {
+      type: String,
+    },
+    vendor: {
+      type: String,
+    },
+    api: {
+      type: String,
     },
     status: {
       type: Boolean,
