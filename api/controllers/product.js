@@ -39,11 +39,10 @@ export const getProduct = async (req, res, next) => {
   }
 };
 export const getProducts = async (req, res, next) => {
-  const { min, max, ...others } = req.query;
+  const { ...others } = req.query;
   try {
     const products = await Product.find({
       ...others,
-      cheapestPrice: { $gt: min | 1, $lt: max || 999 },
     }).limit(req.query.limit);
     res.status(200).json(products);
   } catch (err) {
@@ -87,8 +86,8 @@ export const getProductCategory = async (req, res, next) => {
   try {
     const product = await Product.findById(req.params.id);
     const list = await Promise.all(
-      product.category.map((room) => {
-        return Category.findById(room);
+      product.category.map((category) => {
+        return Category.findById(category);
       })
     );
     res.status(200).json(list)
