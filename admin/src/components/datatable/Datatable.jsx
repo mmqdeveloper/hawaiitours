@@ -13,7 +13,10 @@ const Datatable = ({columns}) => {
   const { data, loading, error } = useFetch(`/${path}`);
 
   useEffect(() => {
-    setList(data);
+    // Update the list only if data is defined
+    if (data) {
+      setList(data);
+    }
   }, [data]);
 
   const handleDelete = async (id) => {
