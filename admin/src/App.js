@@ -2,7 +2,7 @@ import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
-import New from "./pages/new/New";
+import New from "./pages/user/User";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
@@ -10,10 +10,10 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns } from "./datatablesource";
-import NewHotel from "./pages/newHotel/NewHotel";
-import NewRoom from "./pages/newRoom/NewRoom";
-import NewProduct from "./pages/newProduct/NewProduct";
-import NewCategory from "./pages/newCategory/NewCategory";
+import NewHotel from "./pages/hotel/Hotel";
+import NewRoom from "./pages/room/Room";
+import NewProduct from "./pages/product/Product";
+import NewCategory from "./pages/category/Category";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);

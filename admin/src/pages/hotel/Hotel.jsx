@@ -1,18 +1,18 @@
-import "./newProduct.scss";
+import "./hotel.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import { productInputs } from "../../formSource";
+import { hotelInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
-const NewProduct = () => {
+const NewHotel = () => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
-  const [category, setCategory] = useState([]);
+  const [rooms, setRooms] = useState([]);
 
-  const { data, loading, error } = useFetch("/category");
+  const { data, loading, error } = useFetch("/rooms");
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -23,7 +23,7 @@ const NewProduct = () => {
       e.target.selectedOptions,
       (option) => option.value
     );
-    setCategory(value);
+    setRooms(value);
   };
   
   console.log(files)
@@ -46,13 +46,13 @@ const NewProduct = () => {
         })
       );
 
-      const newproduct = {
+      const newhotel = {
         ...info,
-        category,
+        rooms,
         photos: list,
       };
 
-      await axios.post("/product/add", newproduct);
+      await axios.post("/hotels", newhotel);
     } catch (err) {console.log(err)}
   };
   return (
@@ -89,7 +89,7 @@ const NewProduct = () => {
                 />
               </div>
 
-              {productInputs.map((input) => (
+              {hotelInputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
                   <input
@@ -107,15 +107,15 @@ const NewProduct = () => {
                   <option value={true}>Yes</option>
                 </select>
               </div>
-              <div className="selectCategory">
-                <label>Category</label>
-                <select id="category" multiple onChange={handleSelect}>
+              <div className="selectRooms">
+                <label>Rooms</label>
+                <select id="rooms" multiple onChange={handleSelect}>
                   {loading
                     ? "loading"
                     : data &&
-                      data.map((category) => (
-                        <option key={category._id} value={category._id}>
-                          {category.title}
+                      data.map((room) => (
+                        <option key={room._id} value={room._id}>
+                          {room.title}
                         </option>
                       ))}
                 </select>
@@ -129,4 +129,4 @@ const NewProduct = () => {
   );
 };
 
-export default NewProduct;
+export default NewHotel;
