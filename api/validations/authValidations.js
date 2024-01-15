@@ -1,4 +1,8 @@
 import Joi from 'joi';
+const contactInfoSchema = Joi.object({
+    website: Joi.string(),
+
+  });
 const registerValidation = Joi.object({
     username: Joi.string().required().messages({
         'string.empty': 'Username is required',
@@ -15,11 +19,8 @@ const registerValidation = Joi.object({
     'string.pattern.base': 'Phone number should be 10 digits long',
     'string.empty': 'Phone number is required',
     }),
-    country: Joi.string().required().messages({
-        'string.empty': 'County is required',
-    }),
-    city: Joi.string().required().messages({
-        'string.empty': 'City is required',
+    contactInfo: Joi.object({
+        website: Joi.string(),
     }),
     img: Joi.string(),
     isAdmin: Joi.boolean()

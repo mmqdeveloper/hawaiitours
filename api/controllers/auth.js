@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import errors from "../constants/errors.js";
-import { validationResult } from 'express-validator';
 import { authValidations } from "../validations/authValidations.js";
 
 export const register = async (req, res, next) => {
