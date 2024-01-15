@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 import Sidebar from "../../components/sidebar/Sidebar";
@@ -11,15 +11,13 @@ const EditUser = ({ inputs, title }) => {
   const [file, setFile] = useState(null);
   const [info, setInfo] = useState({});
   const [existingUserData, setExistingUserData] = useState({});
-  const location = useLocation();
-  const path_current = location.pathname;
 
   useEffect(() => {
-    // Fetch existing user data when the component mounts
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`/users/${userId}`);
-        setExistingUserData(response.data); // Assuming your API endpoint returns user data
+        setExistingUserData(response.data);
+        console.log("Fetched user data:", response.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }
@@ -53,7 +51,7 @@ const EditUser = ({ inputs, title }) => {
         image: url,
       };
   
-      await axios.put(`${path_current}/edit/${userId}`, updatedUserData);
+      await axios.put(`/edit/${userId}`, updatedUserData);
     } catch (err) {
       console.error("Error updating user:", err);
     }
