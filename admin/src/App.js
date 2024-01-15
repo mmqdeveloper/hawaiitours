@@ -5,7 +5,7 @@ import Single from "./pages/single/Single";
 import NewUser from "./pages/user/NewUser";
 import EditUser from "./pages/user/EditUser";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { productInputs, userInputs } from "./formSource";
+import { categoryInputs, productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -15,6 +15,7 @@ import NewHotel from "./pages/hotel/NewHotel";
 import NewRoom from "./pages/room/NewRoom";
 import NewProduct from "./pages/product/NewProduct";
 import NewCategory from "./pages/category/NewCategory";
+import EditCategory from "./pages/category/EditCategory";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -177,6 +178,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <NewCategory  />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit/:categoryId"
+                element={
+                  <ProtectedRoute>
+                    <EditCategory inputs={categoryInputs} title="Edit Category" />
                   </ProtectedRoute>
                 }
               />
