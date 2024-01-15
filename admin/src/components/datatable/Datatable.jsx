@@ -9,6 +9,7 @@ import axios from "axios";
 const Datatable = ({columns}) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
+  const path_current = location.pathname;
   const [list, setList] = useState([]);
   const { data, loading, error } = useFetch(`/${path}`);
 
@@ -37,7 +38,7 @@ const Datatable = ({columns}) => {
             <Link to="/users/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-            <Link to={`/edit/${params.row._id}`} style={{ textDecoration: "none" }}>
+            <Link to={`${path_current}/edit/${params.row._id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">Edit</div>
             </Link>
             <div
