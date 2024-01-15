@@ -1,13 +1,32 @@
-import "./user.scss";
+import React, { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
+import axios from "axios";
+
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
-import axios from "axios";
 
-const NewUser = ({ inputs, title }) => {
-  const [file, setFile] = useState("");
+const EditUser = ({ inputs, title }) => {
+  const { userId } = useParams();
+  const [file, setFile] = useState(null);
   const [info, setInfo] = useState({});
+  const [existingUserData, setExistingUserData] = useState({});
+  const location = useLocation();
+  const path_current = location.pathname;
+
+  useEffect(() => {
+    // Fetch existing user data when the component mounts
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`/users/${userId}`);
+        setExistingUserData(response.data); // Assuming your API endpoint returns user data
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [userId]);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -15,33 +34,35 @@ const NewUser = ({ inputs, title }) => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "upload");
+  
     try {
       const uploadRes = await axios.post(
         "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
         data
       );
-
+  
       const { url } = uploadRes.data;
-
-      const newUser = {
+  
+      const updatedUserData = {
+        ...existingUserData,
         ...info,
         image: url,
       };
-
-      await axios.post("/auth/register", newUser);
+  
+      await axios.put(`${path_current}/edit/${userId}`, updatedUserData);
     } catch (err) {
-      console.log(err);
+      console.error("Error updating user:", err);
     }
   };
-
-  console.log(info);
+  
   return (
-    <div className="new">
+    <div className="new edit">
       <Sidebar />
-      <div className="newContainer">
+      <div className="newContainer editContainer">
         <Navbar />
         <div className="top">
           <h1>{title}</h1>
@@ -52,7 +73,8 @@ const NewUser = ({ inputs, title }) => {
               src={
                 file
                   ? URL.createObjectURL(file)
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                  : existingUserData.image ||
+                    "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
             />
@@ -79,10 +101,11 @@ const NewUser = ({ inputs, title }) => {
                     type={input.type}
                     placeholder={input.placeholder}
                     id={input.id}
+                    defaultValue={existingUserData[input.id] || ""}
                   />
                 </div>
               ))}
-              <button onClick={handleClick}>Send</button>
+              <button onClick={handleClick}>Save Changes</button>
             </form>
           </div>
         </div>
@@ -91,4 +114,4 @@ const NewUser = ({ inputs, title }) => {
   );
 };
 
-export default NewUser;
+export default EditUser;
