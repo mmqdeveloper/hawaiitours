@@ -58,7 +58,7 @@ const Datatable = ({columns}) => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={list}
+        rows={list || []}
         columns={columns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}
