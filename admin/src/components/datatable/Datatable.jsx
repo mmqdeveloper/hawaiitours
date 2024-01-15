@@ -9,11 +9,14 @@ import axios from "axios";
 const Datatable = ({columns}) => {
   const location = useLocation();
   const path = location.pathname.split("/")[1];
-  const [list, setList] = useState();
+  const [list, setList] = useState([]);
   const { data, loading, error } = useFetch(`/${path}`);
 
   useEffect(() => {
-    setList(data);
+    // Update the list only if data is defined
+    if (data) {
+      setList(data);
+    }
   }, [data]);
 
   const handleDelete = async (id) => {
