@@ -3,6 +3,7 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import NewUser from "./pages/user/NewUser";
+import EditUser from "./pages/user/EditUser";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
@@ -63,7 +64,15 @@ function App() {
                 path="new"
                 element={
                   <ProtectedRoute>
-                    <New inputs={userInputs} title="Add New User" />
+                    <NewUser inputs={userInputs} title="Add New User" />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit/:userId"
+                element={
+                  <ProtectedRoute>
+                    <EditUser inputs={userInputs} title="Edit User" />
                   </ProtectedRoute>
                 }
               />
