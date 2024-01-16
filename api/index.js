@@ -7,6 +7,7 @@ import hotelsRoute from "./routes/hotels.js";
 import roomsRoute from "./routes/rooms.js";
 import productRoute from "./routes/product.js";
 import categoryRoute from "./routes/category.js";
+import roleRoute from "./routes/role.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -40,6 +41,7 @@ app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
 app.use("/api/product", productRoute);
 app.use("/api/category", categoryRoute);
+app.use("/api/role", roleRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;

@@ -152,10 +152,11 @@ const UserSchema = new mongoose.Schema(
         type: String,
       },
     },
-    isAdmin: {
-      type: Boolean,
-      default: false,
-    },
+    // isAdmin: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    roles: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
   },
   { timestamps: true }
 );

@@ -26,7 +26,10 @@ export default {
       status: 422,
       message: 'EXISTED_USERNAME',
     },
-
+    EXISTED_NAME: {
+      status: 422,
+      message: 'Name already exists',
+    },
     EXISTED_EMAIL: {
       status: 422,
       message: 'EXISTED_MAIL',
