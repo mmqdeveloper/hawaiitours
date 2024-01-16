@@ -15,6 +15,11 @@ const CategorySchema = new mongoose.Schema(
     image: {
       type: String,
     },
+    parentCategory: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Category',
+      default: null,
+    },
   },
   { timestamps: true }
 );
