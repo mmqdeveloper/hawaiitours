@@ -9,7 +9,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const EditCategory = () => {
-  const { categoryId } = useParams();
+  const { categoryId } = useParams([]);
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState({});
@@ -18,6 +18,7 @@ const EditCategory = () => {
     const fetchCategoryData = async () => {
       try {
         const response = await axios.get(`/category/${categoryId}`);
+        console.log('fetch data ok')
         setCategory(response.data);
       } catch (error) {
         console.error("Error fetching category data:", error);
@@ -54,7 +55,7 @@ const EditCategory = () => {
         ...info,
         image: url,
       };
-      await axios.put(`/category/update/${categoryId}`, updatedCategory);
+      await axios.put(`/category/${categoryId}`, updatedCategory);
     } catch (err) {
       console.log(err);
     }
