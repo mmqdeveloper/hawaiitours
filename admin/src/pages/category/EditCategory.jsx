@@ -7,14 +7,6 @@ import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
-<<<<<<< HEAD
-const NewCategory = () => {
-  const [info, setInfo] = useState({});
-  const [file, setFile] = useState("");
-  const [category, setCategory] = useState([]);
-
-  const { data, loading, error } = useFetch("/product");
-=======
 const EditCategory = () => {
   const { categoryId } = useParams([]);
   const [info, setInfo] = useState({});
@@ -36,7 +28,6 @@ const EditCategory = () => {
 
     fetchCategoryData();
   }, [categoryId]);
->>>>>>> dev_harry
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -69,11 +60,7 @@ const EditCategory = () => {
         parentCategory: parentCategory,
         image: url,
       };
-<<<<<<< HEAD
-      await axios.post(`/category/add`, newCategory );
-=======
       await axios.put(`/category/${categoryId}`, updatedCategory);
->>>>>>> dev_harry
     } catch (err) {
       console.log(err);
     }
@@ -98,12 +85,8 @@ const EditCategory = () => {
                     id={input.id}
                     type={input.type}
                     placeholder={input.placeholder}
-<<<<<<< HEAD
-                    onChange={handleChange}
-=======
                     onChange={handleParentCategoryChange}
                     defaultValue={category[input.id] || ""}
->>>>>>> dev_harry
                   />
                 </div>
               ))}
