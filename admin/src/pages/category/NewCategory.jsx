@@ -2,7 +2,7 @@ import "./category.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
@@ -11,11 +11,24 @@ const NewCategory = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
+  const [parentCategory, setParentCategory] = useState("None");
+
+  const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
+
+  useEffect(() => {
+    if (categoryData) {
+      setCategory(categoryData);
+    }
+  }, [categoryData]);
 
   const { data, loading, error } = useFetch("/product");
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleParentCategoryChange = (e) => {
+    setParentCategory(e.target.value);
   };
 
   const handleClick = async (e) => {
@@ -69,6 +82,21 @@ const NewCategory = () => {
                   />
                 </div>
               ))}
+              <div className="formInput">
+                <label>Parent Category</label>
+                <select
+                  id="parentCategory"
+                  value={parentCategory}
+                  onChange={handleParentCategoryChange}
+                >
+                  <option value="None">None</option>
+                  {category.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
               <div className="formInput">
                 <label>Description</label>
                 <input

@@ -7,7 +7,7 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 
 const EditUser = ({ inputs, title }) => {
-  const { userId } = useParams();
+  const { userId } = useParams([]);
   const [file, setFile] = useState(null);
   const [info, setInfo] = useState({});
   const [existingUserData, setExistingUserData] = useState({});
@@ -51,7 +51,7 @@ const EditUser = ({ inputs, title }) => {
         image: url,
       };
   
-      await axios.put(`/edit/${userId}`, updatedUserData);
+      await axios.put(`/user/${userId}`, updatedUserData);
     } catch (err) {
       console.error("Error updating user:", err);
     }
