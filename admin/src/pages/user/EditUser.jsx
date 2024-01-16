@@ -53,8 +53,12 @@ const EditUser = ({ inputs, title }) => {
         image: url,
       };
   
+<<<<<<< HEAD
 
       await axios.put(`${path_current}/edit/${userId}`, updatedUserData);
+=======
+      await axios.put(`/user/${userId}`, updatedUserData);
+>>>>>>> dev_harry
     } catch (err) {
       console.error("Error updating user:", err);
     }

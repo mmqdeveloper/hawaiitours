@@ -7,15 +7,43 @@ import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
+<<<<<<< HEAD
 const NewCategory = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
 
   const { data, loading, error } = useFetch("/product");
+=======
+const EditCategory = () => {
+  const { categoryId } = useParams([]);
+  const [info, setInfo] = useState({});
+  const [file, setFile] = useState("");
+  const [category, setCategory] = useState([]);
+  const [parentCategory, setParentCategory] = useState("None");
+  console.log([category, setCategory])
+
+  useEffect(() => {
+    const fetchCategoryData = async () => {
+      try {
+        const response = await axios.get(`/category/${categoryId}`);
+        console.log('fetch data ok')
+        setCategory(response.data);
+      } catch (error) {
+        console.error("Error fetching category data:", error);
+      }
+    };
+
+    fetchCategoryData();
+  }, [categoryId]);
+>>>>>>> dev_harry
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleParentCategoryChange = (e) => {
+    setParentCategory(e.target.value);
   };
 
   const handleClick = async (e) => {
@@ -38,9 +66,14 @@ const NewCategory = () => {
 
       const newCategory = {
         ...info,
+        parentCategory: parentCategory,
         image: url,
       };
+<<<<<<< HEAD
       await axios.post(`/category/add`, newCategory );
+=======
+      await axios.put(`/category/${categoryId}`, updatedCategory);
+>>>>>>> dev_harry
     } catch (err) {
       console.log(err);
     }
@@ -65,10 +98,34 @@ const NewCategory = () => {
                     id={input.id}
                     type={input.type}
                     placeholder={input.placeholder}
+<<<<<<< HEAD
                     onChange={handleChange}
+=======
+                    onChange={handleParentCategoryChange}
+                    defaultValue={category[input.id] || ""}
+>>>>>>> dev_harry
                   />
                 </div>
               ))}
+              <div className="formInput">
+                <label>Parent Category</label>
+                {category.length > 0 ? (
+                  <select
+                    id="parentCategory"
+                    onChange={handleChange}
+                    value={parentCategory || ""}
+                  >
+                    <option value="">None</option>
+                    {category.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <p>No parent category available</p>
+                )}
+              </div>
               <div className="formInput">
                 <label>Description</label>
                 <input
