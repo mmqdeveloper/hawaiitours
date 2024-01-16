@@ -14,13 +14,16 @@ export const createCategory = async (req, res, next) => {
 
 export const updateCategory = async (req, res, next) => {
   try {
+    const categoryId = req.params.id;
+    console.log(categoryId)
     const updatedCategory = await Category.findByIdAndUpdate(
-      req.params.id,
+      categoryId,
       { $set: req.body },
       { new: true }
     );
     res.status(200).json(updatedCategory);
   } catch (err) {
+    console.log(err);
     next(err);
   }
 };
