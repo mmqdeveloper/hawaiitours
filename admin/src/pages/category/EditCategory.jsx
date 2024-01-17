@@ -2,25 +2,29 @@ import "./category.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 const EditCategory = () => {
   const { categoryId } = useParams([]);
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
-  const [parentCategory, setParentCategory] = useState("None");
-  console.log([category, setCategory])
+  const [parentCategory, setParentCategory] = useState([]);
 
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
         const response = await axios.get(`/category/${categoryId}`);
-        console.log('fetch data ok')
         setCategory(response.data);
+        if (response.data.parentCategory) {
+          const parentCategoryId = response.data.parentCategory;
+          const parentCategoryResponse = await axios.get(`/category/${parentCategoryId}`);
+          setParentCategory(parentCategoryResponse.data.childrenCategories || []);
+        }
       } catch (error) {
         console.error("Error fetching category data:", error);
       }
@@ -29,12 +33,12 @@ const EditCategory = () => {
     fetchCategoryData();
   }, [categoryId]);
 
-  const handleChange = (e) => {
-    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  const handleParentCategoryChange = (e) => {
+    setInfo((prev) => ({ ...prev, parentCategory: e.target.value }));
   };
 
-  const handleParentCategoryChange = (e) => {
-    setParentCategory(e.target.value);
+  const handleChange = (e) => {
+    setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   const handleClick = async (e) => {
@@ -42,6 +46,7 @@ const EditCategory = () => {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "upload");
+    
     try {
       let url;
 
@@ -52,12 +57,11 @@ const EditCategory = () => {
         );
         url = uploadRes.data.url;
       } else {
-        url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+        url = category.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
       }
 
-      const newCategory = {
+      const updatedCategory = {
         ...info,
-        parentCategory: parentCategory,
         image: url,
       };
       await axios.put(`/category/${categoryId}`, updatedCategory);
@@ -66,14 +70,13 @@ const EditCategory = () => {
     }
   };
 
-  console.log(info)
   return (
-    <div className="new">
+    <div className="new edit">
       <Sidebar />
-      <div className="newContainer">
+      <div className="newContainer editContainer">
         <Navbar />
         <div className="top">
-          <h1>Add New Category</h1>
+          <h1>Edit Category</h1>
         </div>
         <div className="bottom">
           <div className="right">
@@ -85,23 +88,23 @@ const EditCategory = () => {
                     id={input.id}
                     type={input.type}
                     placeholder={input.placeholder}
-                    onChange={handleParentCategoryChange}
+                    onChange={handleChange}
                     defaultValue={category[input.id] || ""}
                   />
                 </div>
               ))}
               <div className="formInput">
                 <label>Parent Category</label>
-                {category.length > 0 ? (
+                {parentCategory.length > 0 ? (
                   <select
                     id="parentCategory"
-                    onChange={handleChange}
-                    value={parentCategory || ""}
+                    onChange={handleParentCategoryChange}
+                    value={info.parentCategory || ""}
                   >
                     <option value="">None</option>
-                    {category.map((category) => (
-                      <option key={category._id} value={category._id}>
-                        {category.name}
+                    {parentCategory.map((parentCat) => (
+                      <option key={parentCat._id} value={parentCat._id}>
+                        {parentCat.name}
                       </option>
                     ))}
                   </select>
@@ -116,6 +119,7 @@ const EditCategory = () => {
                   type="text"
                   placeholder=""
                   onChange={handleChange}
+                  defaultValue={category.description || ""}
                 />
               </div>
               <div className="formInput">
@@ -124,7 +128,7 @@ const EditCategory = () => {
                   src={
                     file
                       ? URL.createObjectURL(file)
-                      : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                      : category.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                   }
                   alt=""
                 />
@@ -138,21 +142,7 @@ const EditCategory = () => {
                   style={{ display: "none" }}
                 />
               </div>
-              {/* <div className="formInput">
-                <label>Choose a Product</label>
-                <select
-                  id="productId"
-                  onChange={(e) => setProductId(e.target.value)}
-                >
-                  {loading
-                    ? "loading"
-                    : data &&
-                      data.map((product) => (
-                        <option key={product._id} value={product._id}>{product.name}</option>
-                      ))}
-                </select>
-              </div> */}
-              <button onClick={handleClick}>Send</button>
+              <button onClick={handleClick}>Save Changes</button>
             </form>
           </div>
         </div>
@@ -161,4 +151,4 @@ const EditCategory = () => {
   );
 };
 
-export default NewCategory;
+export default EditCategory;

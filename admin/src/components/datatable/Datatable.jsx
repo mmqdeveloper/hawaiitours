@@ -14,7 +14,6 @@ const Datatable = ({columns}) => {
   const { data, loading, error } = useFetch(`/${path}`);
 
   useEffect(() => {
-    // Update the list only if data is defined
     if (data) {
       setList(data);
     }
@@ -64,7 +63,7 @@ const Datatable = ({columns}) => {
         className="datagrid"
         rows={list || []}
         columns={columns.concat(actionColumn)}
-        pageSize={9}
+        pageSize={5}
         rowsPerPageOptions={[9]}
         checkboxSelection
         getRowId={(row) => row._id}

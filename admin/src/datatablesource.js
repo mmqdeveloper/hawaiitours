@@ -202,10 +202,6 @@ export const categoryColumns = [
     field: "parentCategory",
     headerName: "Parent Category",
     width: 230,
-    renderCell: (params) => {
-      const parentCategoryName = params.row.parentCategory ? params.row.parentCategory.name : 'None';
-      return <span>{parentCategoryName}</span>;
-    },
   },
 ];
 

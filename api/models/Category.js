@@ -16,18 +16,17 @@ const CategorySchema = new mongoose.Schema(
       type: String,
     },
     parentCategory: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'Category',
+      type: String,
       default: null,
     },
   },
   { timestamps: true }
 );
 
-CategorySchema.pre('findOne', function (next) {
-  this.populate('parentCategory');
-  next();
-});
+// CategorySchema.pre('findOne', function (next) {
+//   this.populate('parentCategory');
+//   next();
+// });
 
 
 export default mongoose.model("Category", CategorySchema);
