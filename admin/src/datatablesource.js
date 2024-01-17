@@ -178,7 +178,7 @@ export const categoryColumns = [
       return (
         <div className="cellWithImg">
           <img className="cellImg" src={params.row.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
-          {params.row.username}
+          {params.row.name}
         </div>
       );
     },
@@ -202,5 +202,9 @@ export const categoryColumns = [
     field: "parentCategory",
     headerName: "Parent Category",
     width: 230,
+    renderCell: (params) => {
+      const parentCategoryName = params.row.parentCategory ? params.row.parentCategory.name : 'None';
+      return <span>{parentCategoryName}</span>;
+    },
   },
 ];

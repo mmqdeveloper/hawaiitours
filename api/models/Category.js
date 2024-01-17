@@ -24,4 +24,10 @@ const CategorySchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+CategorySchema.pre('findOne', function (next) {
+  this.populate('parentCategory');
+  next();
+});
+
+
 export default mongoose.model("Category", CategorySchema);
