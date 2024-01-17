@@ -48,10 +48,14 @@ const NewCategory = () => {
         url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
       }
 
+      const selectedCategoryId = parentCategory;
+      const selectedCategory = category.find((cat) => cat._id === selectedCategoryId);
+      const parentCategoryName = selectedCategory ? selectedCategory.name : 'None';
+      console.log(parentCategoryName)
       const newCategory = {
         ...info,
         image: url,
-        parentCategory: parentCategory === "None" ? null : parentCategory,
+        parentCategory: parentCategoryName,
       };
 
       await axios.post(`/category/add`, newCategory);

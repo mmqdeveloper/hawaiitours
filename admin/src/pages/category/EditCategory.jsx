@@ -20,6 +20,8 @@ const EditCategory = () => {
       try {
         const response = await axios.get(`/category/${categoryId}`);
         setCategory(response.data);
+
+        // Nếu có parent category, thì fetch tất cả các category từ parent
         if (response.data.parentCategory) {
           const parentCategoryId = response.data.parentCategory;
           const parentCategoryResponse = await axios.get(`/category/${parentCategoryId}`);
