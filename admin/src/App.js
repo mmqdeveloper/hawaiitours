@@ -3,19 +3,19 @@ import Login from "./pages/login/Login";
 import List from "./pages/list/List";
 import Single from "./pages/single/Single";
 import NewUser from "./pages/user/NewUser";
+import Booking from "./pages/booking/booking"
 import EditUser from "./pages/user/EditUser";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { categoryInputs, productInputs, userInputs } from "./formSource";
+import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns } from "./datatablesource";
+import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns, BookingColumns } from "./datatablesource";
 import NewHotel from "./pages/hotel/NewHotel";
 import NewRoom from "./pages/room/NewRoom";
 import NewProduct from "./pages/product/NewProduct";
 import NewCategory from "./pages/category/NewCategory";
-import EditCategory from "./pages/category/EditCategory";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -181,11 +181,13 @@ function App() {
                   </ProtectedRoute>
                 }
               />
+            </Route>
+            <Route path="booking">
               <Route
-                path="edit/:categoryId"
+                index
                 element={
                   <ProtectedRoute>
-                    <EditCategory inputs={categoryInputs} title="Edit Category" />
+                    <List columns={BookingColumns} />
                   </ProtectedRoute>
                 }
               />

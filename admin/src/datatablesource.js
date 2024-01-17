@@ -208,3 +208,36 @@ export const categoryColumns = [
     },
   },
 ];
+
+
+export const BookingColumns = [
+  { field: "_id", headerName: "ID", width: 250 },
+  {
+    field: "image",
+    headerName: "Image",
+    width: 100,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <img className="cellImg" src={params.row.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
+          {params.row.username}
+        </div>
+      );
+    },
+  },
+  {
+    field: "name",
+    headerName: "Name",
+    width: 230,
+  },
+  {
+    field: "description",
+    headerName: "Description",
+    width: 500,
+  },
+  {
+    field: "slug",
+    headerName: "Slug",
+    width: 100,
+  },
+];

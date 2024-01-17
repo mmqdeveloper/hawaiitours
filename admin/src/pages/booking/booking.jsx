@@ -1,8 +1,7 @@
-import "./category.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
@@ -11,22 +10,11 @@ const NewCategory = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
-  const [parentCategory, setParentCategory] = useState("None");
 
-  const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
-
-  useEffect(() => {
-    if (categoryData) {
-      setCategory(categoryData);
-    }
-  }, [categoryData]);
+  const { data, loading, error } = useFetch("/product");
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
-  };
-
-  const handleParentCategoryChange = (e) => {
-    setParentCategory(e.target.value);
   };
 
   const handleClick = async (e) => {
@@ -34,7 +22,6 @@ const NewCategory = () => {
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "upload");
-
     try {
       let url;
 
@@ -51,15 +38,14 @@ const NewCategory = () => {
       const newCategory = {
         ...info,
         image: url,
-        parentCategory: parentCategory === "None" ? null : parentCategory,
       };
-
-      await axios.post(`/category/add`, newCategory);
+      await axios.post(`/category/add`, newCategory );
     } catch (err) {
       console.log(err);
     }
   };
 
+  console.log(info)
   return (
     <div className="new">
       <Sidebar />
@@ -83,21 +69,6 @@ const NewCategory = () => {
                 </div>
               ))}
               <div className="formInput">
-                <label>Parent Category</label>
-                <select
-                  id="parentCategory"
-                  value={parentCategory}
-                  onChange={handleParentCategoryChange}
-                >
-                  <option value="None">None</option>
-                  {category.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="formInput">
                 <label>Description</label>
                 <input
                   id="description"
@@ -116,7 +87,7 @@ const NewCategory = () => {
                   }
                   alt=""
                 />
-                <label htmlFor="file">
+                <label htmlFor="file"> 
                   <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
@@ -126,6 +97,20 @@ const NewCategory = () => {
                   style={{ display: "none" }}
                 />
               </div>
+              {/* <div className="formInput">
+                <label>Choose a Product</label>
+                <select
+                  id="productId"
+                  onChange={(e) => setProductId(e.target.value)}
+                >
+                  {loading
+                    ? "loading"
+                    : data &&
+                      data.map((product) => (
+                        <option key={product._id} value={product._id}>{product.name}</option>
+                      ))}
+                </select>
+              </div> */}
               <button onClick={handleClick}>Send</button>
             </form>
           </div>
@@ -136,4 +121,3 @@ const NewCategory = () => {
 };
 
 export default NewCategory;
-
