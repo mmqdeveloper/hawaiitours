@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { createError } from "../utils/error.js";
+import Role from "../models/Role.js";
 
 export const verifyToken = (req, res, next) => {
   const token = req.cookies.access_token;
@@ -16,9 +17,13 @@ export const verifyToken = (req, res, next) => {
 
 export const verifyUser = (req, res, next) => {
   verifyToken(req, res, next, () => {
+    console.log(req.user);
     if (req.user.id === req.params.id || req.user.isAdmin) {
+      console.log(req.user);
       next();
+
     } else {
+      console.log("ok");
       return next(createError(403, "You are not authorized!"));
     }
   });
@@ -33,3 +38,22 @@ export const verifyAdmin = (req, res, next) => {
     }
   });
 };
+
+export const checkPermission = (requiredPermission) => {
+  return (req, res, next) => {
+    const token = req.cookies.access_token;
+
+    if (!token) return next(createError(401, "You are not authenticated!"));
+
+    jwt.verify(token, process.env.JWT, (err, user) => {
+      if(err) return createError(403, "Token is not valid!");
+      console.log(user);
+      if (!user || !user.role || !user.role.permissions || !user.role.permissions.includes(requiredPermission)) {
+        return next(createError(403, "You are not authorized!"));
+      }
+    });
+
+    next();
+  }
+
+} 

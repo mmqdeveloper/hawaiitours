@@ -69,17 +69,25 @@ export const login = async (req, res, next) => {
     if (!isPasswordCorrect)
       return next(createError(400, "Wrong password or username!"));
 
+    let roleToken = {};
+    if (user.role) {
+      const checkRole = await Role.findById(user.role).populate({path: "permissions", select: "name"});
+      if (checkRole) {
+        roleToken.name = checkRole.name;
+        roleToken.permissions = checkRole.permissions.map(permission => permission.name);
+      }
+    }
     const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
+      { id: user._id, role: roleToken },
       process.env.JWT
     );
-    const { password, isAdmin, ...otherDetails } = user._doc;
+    const { password, role, ...otherDetails } = user._doc;
     res
       .cookie("access_token", token, {
         httpOnly: true,
       })
       .status(200)
-      .json({ details: { ...otherDetails }, isAdmin });
+      .json({ details: { ...otherDetails }, role });
   } catch (err) {
     next(err);
   }

@@ -203,6 +203,9 @@ const updatePermission = async (req, res, next) => {
 const deletePermission = async (req, res, next) => {
     try {
         const permissionId = req.params.id;
+
+        await Role.updateMany({ permissions: permissionId }, { $pull: { permissions: permissionId } });
+
         const deletePermission = await Permission.findByIdAndDelete(permissionId);
         if (!deletePermission) {
             return next(createError(404, "Permission not found"));
@@ -256,7 +259,7 @@ const createRole = async(req, res, next) => {
 
 const getAllRoles = async (req, res, next) => {
     try {
-        const roles = await Role.find().populate({path: 'permissions', select: 'name'})
+        const roles = await Role.find().populate({path: 'permissions', select: 'name'});
 
         res.status(200).json(roles)
     } catch (error) {
