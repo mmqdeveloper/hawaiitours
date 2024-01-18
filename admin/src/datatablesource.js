@@ -196,7 +196,7 @@ export const categoryColumns = [
   {
     field: "slug",
     headerName: "Slug",
-    width: 100,
+    width: 200,
   },
   {
     field: "parentCategory",
