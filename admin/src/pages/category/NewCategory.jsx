@@ -52,6 +52,7 @@ const NewCategory = () => {
       const selectedCategory = category.find((cat) => cat._id === selectedCategoryId);
       const parentCategoryName = selectedCategory ? selectedCategory.name : 'None';
       console.log(parentCategoryName)
+
       const newCategory = {
         ...info,
         image: url,
@@ -96,7 +97,6 @@ const NewCategory = () => {
                   <option value="None">None</option>
                   {category.map((category) => (
                     <option key={category._id} value={category._id}>
-
                       {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
                     </option>
                   ))}

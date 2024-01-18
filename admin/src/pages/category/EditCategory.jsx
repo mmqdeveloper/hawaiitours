@@ -9,38 +9,25 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const EditCategory = () => {
-  const { categoryId } = useParams([]);
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
-  const [parentCategory, setParentCategory] = useState([]);
+  const [parentCategory, setParentCategory] = useState("None");
+
+  const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
 
   useEffect(() => {
-    const fetchCategoryData = async () => {
-      try {
-        const response = await axios.get(`/category/${categoryId}`);
-        setCategory(response.data);
-
-        // Nếu có parent category, thì fetch tất cả các category từ parent
-        if (response.data.parentCategory) {
-          const parentCategoryId = response.data.parentCategory;
-          const parentCategoryResponse = await axios.get(`/category/${parentCategoryId}`);
-          setParentCategory(parentCategoryResponse.data.childrenCategories || []);
-        }
-      } catch (error) {
-        console.error("Error fetching category data:", error);
-      }
-    };
-
-    fetchCategoryData();
-  }, [categoryId]);
-
-  const handleParentCategoryChange = (e) => {
-    setInfo((prev) => ({ ...prev, parentCategory: e.target.value }));
-  };
+    if (categoryData) {
+      setCategory(categoryData);
+    }
+  }, [categoryData]);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
+  };
+
+  const handleParentCategoryChange = (e) => {
+    setParentCategory(e.target.value);
   };
 
   const handleClick = async (e) => {
@@ -62,11 +49,17 @@ const EditCategory = () => {
         url = category.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
       }
 
+      const selectedCategoryId = parentCategory;
+      const selectedCategory = category.find((cat) => cat._id === selectedCategoryId);
+      const parentCategoryName = selectedCategory ? selectedCategory.name : 'None';
+      console.log(parentCategoryName)
+
       const updatedCategory = {
         ...info,
         image: url,
+        parentCategory: parentCategoryName,
       };
-      await axios.put(`/category/${categoryId}`, updatedCategory);
+      await axios.put(`/category/${parentCategoryName}`, updatedCategory);
     } catch (err) {
       console.log(err);
     }
@@ -97,22 +90,18 @@ const EditCategory = () => {
               ))}
               <div className="formInput">
                 <label>Parent Category</label>
-                {parentCategory.length > 0 ? (
-                  <select
-                    id="parentCategory"
-                    onChange={handleParentCategoryChange}
-                    value={info.parentCategory || ""}
-                  >
-                    <option value="">None</option>
-                    {parentCategory.map((parentCat) => (
-                      <option key={parentCat._id} value={parentCat._id}>
-                        {parentCat.name}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <p>No parent category available</p>
-                )}
+                <select
+                  id="parentCategory"
+                  value={parentCategory}
+                  onChange={handleParentCategoryChange}
+                >
+                  <option value="None">None</option>
+                  {category.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="formInput">
                 <label>Description</label>
