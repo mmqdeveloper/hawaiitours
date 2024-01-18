@@ -4,6 +4,7 @@ import { createError } from "../utils/error.js";
 import jwt from "jsonwebtoken";
 import errors from "../constants/errors.js";
 import { authValidations } from "../validations/authValidations.js";
+import Role from "../models/Role.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -35,16 +36,19 @@ export const register = async (req, res, next) => {
 
     const checkExistedPhone = await User.findOne({ phone: registerReq.phone })
     if (checkExistedPhone) return next(createError(errors.EXISTED_PHONE.status, errors.EXISTED_PHONE.message));
+    
+    if (!registerReq.role) registerReq.role = "Customer";
+    
+    const checkRole = await Role.findOne({name: registerReq.role});
+    if (!checkRole) return next(createError(404, "Role not found"));
 
-
-    var reqIsAdmin = false;
     const salt = bcrypt.genSaltSync(10);
     const hash = bcrypt.hashSync(req.body.password, salt);
 
     const newUser = new User({
       ...registerReq,
       password: hash,
-      isAdmin: reqIsAdmin,
+      role: checkRole._id,
     });
 
     await newUser.save();

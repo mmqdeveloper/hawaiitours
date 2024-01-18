@@ -156,7 +156,7 @@ const UserSchema = new mongoose.Schema(
     //   type: Boolean,
     //   default: false,
     // },
-    roles: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
+    role: { type: mongoose.Schema.Types.ObjectId, ref: 'Role' },
   },
   { timestamps: true }
 );

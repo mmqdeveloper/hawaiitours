@@ -1,8 +1,4 @@
 import Joi from 'joi';
-const contactInfoSchema = Joi.object({
-    website: Joi.string(),
-
-  });
 const registerValidation = Joi.object({
     username: Joi.string().required().messages({
         'string.empty': 'Username is required',
@@ -23,8 +19,7 @@ const registerValidation = Joi.object({
         website: Joi.string(),
     }),
     img: Joi.string(),
-    isAdmin: Joi.boolean()
-
+    role: Joi.string().default('Customer')
 })
 export const authValidations = {
     registerValidation

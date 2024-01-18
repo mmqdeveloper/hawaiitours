@@ -1,7 +1,15 @@
 import User from "../models/User.js";
+import { authValidations } from "../validations/authValidations.js";
 
 export const updateUser = async (req,res,next)=>{
   try {
+    const updatedUserReq = req.body;
+    const {error} = authValidations.authValidations.validate(updatedUserReq);
+
+    if (error) {
+      return res.status(400).json({message: error.details[0].message});
+    }
+
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       { $set: req.body },
@@ -30,7 +38,7 @@ export const getUser = async (req,res,next)=>{
 }
 export const getUsers = async (req,res,next)=>{
   try {
-    const users = await User.find();
+    const users = await User.find().populate({path: 'role', select: 'name'});
     res.status(200).json(users);
   } catch (err) {
     next(err);
