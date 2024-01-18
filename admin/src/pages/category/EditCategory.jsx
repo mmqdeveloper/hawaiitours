@@ -8,7 +8,10 @@ import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+
 const EditCategory = () => {
+  const { categoryId } = useParams();
+
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
@@ -17,10 +20,23 @@ const EditCategory = () => {
   const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
 
   useEffect(() => {
+    console.log(categoryData);
     if (categoryData) {
       setCategory(categoryData);
+      const selectedCategory = categoryData.find((cat) => cat._id === categoryId);
+      console.log(selectedCategory)
+      if (selectedCategory) {
+        setInfo({
+          name: selectedCategory.name,
+          description: selectedCategory.description,
+          slug: selectedCategory.slug,
+          image: selectedCategory.image,
+        });
+        setParentCategory(selectedCategory.parentCategory || "None");
+        console.log("Updated info:", info);
+      }
     }
-  }, [categoryData]);
+  }, [categoryData, categoryId]);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -59,7 +75,7 @@ const EditCategory = () => {
         image: url,
         parentCategory: parentCategoryName,
       };
-      await axios.put(`/category/${parentCategoryName}`, updatedCategory);
+      await axios.put(`/category/${categoryId}`, updatedCategory);
     } catch (err) {
       console.log(err);
     }
@@ -96,9 +112,9 @@ const EditCategory = () => {
                   onChange={handleParentCategoryChange}
                 >
                   <option value="None">None</option>
-                  {category.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
+                  {category.map((cat) => (
+                    <option key={cat._id} value={cat._id}>
+                      {cat.parentCategory && cat.parentCategory !== "None" ? '━' : ''}{cat.name}
                     </option>
                   ))}
                 </select>
