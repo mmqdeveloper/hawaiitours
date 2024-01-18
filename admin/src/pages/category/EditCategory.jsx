@@ -31,6 +31,7 @@ const EditCategory = () => {
           description: selectedCategory.description,
           slug: selectedCategory.slug,
           image: selectedCategory.image,
+          parentCategory: selectedCategory.parentCategory,
         });
         setParentCategory(selectedCategory.parentCategory || "None");
         console.log("Updated info:", info);
@@ -92,64 +93,64 @@ const EditCategory = () => {
         <div className="bottom">
           <div className="right">
             <form>
-              {categoryInputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={handleChange}
-                    defaultValue={category[input.id] || ""}
-                  />
-                </div>
-              ))}
-              <div className="formInput">
-                <label>Parent Category</label>
-                <select
-                  id="parentCategory"
-                  value={parentCategory}
-                  onChange={handleParentCategoryChange}
-                >
-                  <option value="None">None</option>
-                  {category.map((cat) => (
-                    <option key={cat._id} value={cat._id}>
-                      {cat.parentCategory && cat.parentCategory !== "None" ? '━' : ''}{cat.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="formInput">
-                <label>Description</label>
+            {categoryInputs.map((input) => (
+              <div className="formInput" key={input.id}>
+                <label>{input.label}</label>
                 <input
-                  id="description"
-                  type="text"
-                  placeholder=""
+                  id={input.id}
+                  type={input.type}
+                  placeholder={input.placeholder}
                   onChange={handleChange}
-                  defaultValue={category.description || ""}
+                  value={info[input.id] || ""}
                 />
               </div>
-              <div className="formInput">
-                <label>Image</label>
-                <img
-                  src={
-                    file
-                      ? URL.createObjectURL(file)
-                      : category.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                  }
-                  alt=""
-                />
-                <label htmlFor="file">
-                  <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
-                  style={{ display: "none" }}
-                />
-              </div>
-              <button onClick={handleClick}>Save Changes</button>
+            ))}
+            <div className="formInput">
+              <label>Parent Category</label>
+              <select
+                id="parentCategory"
+                value={parentCategory}
+                onChange={handleParentCategoryChange}
+              >
+                <option value="None">None</option>
+                {category.map((cat) => (
+                  <option key={cat._id} value={cat._id}>
+                    {cat.parentCategory && cat.parentCategory !== "None" ? '━' : ''}{cat.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="formInput">
+              <label>Description</label>
+              <input
+                id="description"
+                type="text"
+                placeholder=""
+                onChange={handleChange}
+                value={info.description || ""}
+              />
+            </div>
+            <div className="formInput">
+              <label>Image</label>
+              <img
+                src={
+                  file
+                    ? URL.createObjectURL(file)
+                    : info.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                }
+                alt=""
+              />
+              <label htmlFor="file">
+                <DriveFolderUploadOutlinedIcon className="icon" />
+              </label>
+              <input
+                type="file"
+                id="file"
+                onChange={(e) => setFile(e.target.files[0])}
+                style={{ display: "none" }}
+              />
+            </div>
+            <button onClick={handleClick}>Save Changes</button>
             </form>
           </div>
         </div>
