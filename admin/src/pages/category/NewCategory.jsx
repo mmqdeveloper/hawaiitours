@@ -97,7 +97,7 @@ const NewCategory = () => {
                   <option value="None">None</option>
                   {category.map((category) => (
                     <option key={category._id} value={category._id}>
-                      {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
+                      {category.parentCategory && category.parentCategory !== "None" ? '━ ' : ''}{category.name}
                     </option>
                   ))}
                 </select>

@@ -15,10 +15,12 @@ const EditCategory = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
-  const [parentCategory, setParentCategory] = useState("None");
 
   const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
 
+  const [defaultCategory, setDefaultCategory] = useState([]);
+  console.log("test  "+ defaultCategory)
+  
   useEffect(() => {
     console.log(categoryData);
     if (categoryData) {
@@ -33,7 +35,7 @@ const EditCategory = () => {
           image: selectedCategory.image,
           parentCategory: selectedCategory.parentCategory,
         });
-        setParentCategory(selectedCategory.parentCategory || "None");
+        setDefaultCategory(selectedCategory.parentCategory || "None");
         console.log("Updated info:", info);
       }
     }
@@ -44,7 +46,7 @@ const EditCategory = () => {
   };
 
   const handleParentCategoryChange = (e) => {
-    setParentCategory(e.target.value);
+    setDefaultCategory(e.target.value);
   };
 
   const handleClick = async (e) => {
@@ -66,10 +68,8 @@ const EditCategory = () => {
         url = category.image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
       }
 
-      const selectedCategoryId = parentCategory;
-      const selectedCategory = category.find((cat) => cat._id === selectedCategoryId);
-      const parentCategoryName = selectedCategory ? selectedCategory.name : 'None';
-      console.log(parentCategoryName)
+      const parentCategoryName = defaultCategory;
+      console.log("View: " + parentCategoryName)
 
       const updatedCategory = {
         ...info,
@@ -107,15 +107,11 @@ const EditCategory = () => {
             ))}
             <div className="formInput">
               <label>Parent Category</label>
-              <select
-                id="parentCategory"
-                value={parentCategory}
-                onChange={handleParentCategoryChange}
-              >
+              <select id="parentCategory" value={defaultCategory} onChange={handleParentCategoryChange}>
                 <option value="None">None</option>
                 {category.map((cat) => (
-                  <option key={cat._id} value={cat._id}>
-                    {cat.parentCategory && cat.parentCategory !== "None" ? '━' : ''}{cat.name}
+                  <option key={cat._id} value={cat.name}>
+                    {cat.parentCategory && cat.parentCategory !== "None" ? '━ ' : ''}{cat.name}
                   </option>
                 ))}
               </select>
