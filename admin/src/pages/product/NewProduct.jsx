@@ -1,32 +1,33 @@
+import React, { useState, useEffect } from "react";
 import "./product.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
-import { productInputs } from "../../formSource";
-import useFetch from "../../hooks/useFetch";
 import axios from "axios";
+import useFetch from "../../hooks/useFetch";
 
 const NewProduct = () => {
-  const [files, setFiles] = useState("");
+  const [files, setFiles] = useState([]);
   const [info, setInfo] = useState({});
   const [category, setCategory] = useState([]);
+  
+  const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
 
-  const { data, loading, error } = useFetch("/category");
+  useEffect(() => {
+    if (categoryData) {
+      setCategory(categoryData);
+    }
+  }, [categoryData]);
+
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   const handleSelect = (e) => {
-    const value = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
+    const value = Array.from(e.target.selectedOptions, (option) => option.value);
     setCategory(value);
   };
-  
-  console.log(files)
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -46,15 +47,18 @@ const NewProduct = () => {
         })
       );
 
-      const newproduct = {
+      const newProduct = {
         ...info,
-        category,
-        photos: list,
+        categories: category,
+        hero_image: list[0],
       };
 
-      await axios.post("/product/add", newproduct);
-    } catch (err) {console.log(err)}
+      await axios.post("/product/add", newProduct);
+    } catch (err) {
+      console.error(err);
+    }
   };
+
   return (
     <div className="new">
       <Sidebar />
@@ -67,7 +71,7 @@ const NewProduct = () => {
           <div className="left">
             <img
               src={
-                files
+                files.length
                   ? URL.createObjectURL(files[0])
                   : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
@@ -89,37 +93,178 @@ const NewProduct = () => {
                 />
               </div>
 
-              {productInputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    onChange={handleChange}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                  />
-                </div>
-              ))}
               <div className="formInput">
-                <label>Featured</label>
-                <select id="featured" onChange={handleChange}>
+                <label>Product Name</label>
+                <input
+                  id="name"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter product name"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Description</label>
+                <input
+                  id="desc"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter description"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Price</label>
+                <input
+                  id="price"
+                  onChange={handleChange}
+                  type="number"
+                  placeholder="Enter price"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>SKU</label>
+                <input
+                  id="sku"
+                  onChange={handleChange}
+                  type="number"
+                  placeholder="Enter SKU"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Tags</label>
+                <input
+                  id="tags"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter tags"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Author</label>
+                <input
+                  id="author"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter author"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Badge</label>
+                <input
+                  id="badge"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter badge"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Commission Rate</label>
+                <input
+                  id="commission_rate"
+                  onChange={handleChange}
+                  type="number"
+                  placeholder="Enter commission rate"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Product Notes</label>
+                <input
+                  id="product_notes"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter product notes"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Pickup</label>
+                <input
+                  id="pickup"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter pickup"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>SEO Title</label>
+                <input
+                  id="seo_title"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter SEO Title"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Meta Description</label>
+                <input
+                  id="meta_desc"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter Meta Description"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Keyphrase</label>
+                <input
+                  id="keyphrase"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter Keyphrase"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Vendor</label>
+                <input
+                  id="vendor"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter vendor"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>API</label>
+                <input
+                  id="api"
+                  onChange={handleChange}
+                  type="text"
+                  placeholder="Enter API"
+                />
+              </div>
+
+              <div className="formInput">
+                <label>Status</label>
+                <select id="status" onChange={handleChange}>
                   <option value={false}>No</option>
                   <option value={true}>Yes</option>
                 </select>
               </div>
-              <div className="selectCategory">
-                <label>Category</label>
-                <select id="category" multiple onChange={handleSelect}>
-                  {loading
-                    ? "loading"
-                    : data &&
-                      data.map((category) => (
-                        <option key={category._id} value={category._id}>
-                          {category.title}
+
+              <div className="formInput">
+                <label>Categories</label>
+                <select id="categories" onChange={handleSelect} value={category}>
+                  {categoryLoading
+                    ? "Loading"
+                    : categoryData &&
+                      categoryData.map((cat) => (
+                        <option key={cat._id} value={cat.name}>
+                          {cat.name}
                         </option>
                       ))}
                 </select>
               </div>
+
               <button onClick={handleClick}>Send</button>
             </form>
           </div>
