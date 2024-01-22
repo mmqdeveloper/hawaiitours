@@ -7,8 +7,8 @@ import axios from "axios";
 import useFetch from "../../hooks/useFetch";
 
 const NewProduct = () => {
-  const [files, setFiles] = useState([]);
   const [info, setInfo] = useState({});
+  const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
   
   const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
@@ -31,26 +31,26 @@ const NewProduct = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "upload");
     try {
-      const list = await Promise.all(
-        Object.values(files).map(async (file) => {
-          const data = new FormData();
-          data.append("file", file);
-          data.append("upload_preset", "upload");
-          const uploadRes = await axios.post(
-            "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
-            data
-          );
+      let url;
 
-          const { url } = uploadRes.data;
-          return url;
-        })
-      );
+      if (file) {
+        const uploadRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
+          data
+        );
+        url = uploadRes.data.url;
+      } else {
+        url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+      }
 
       const newProduct = {
         ...info,
         categories: category,
-        hero_image: list[0],
+        product_image: url,
       };
 
       await axios.post("/product/add", newProduct);
@@ -71,8 +71,8 @@ const NewProduct = () => {
           <div className="left">
             <img
               src={
-                files.length
-                  ? URL.createObjectURL(files[0])
+                file.length
+                  ? URL.createObjectURL(file[0])
                   : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
               }
               alt=""
@@ -81,14 +81,22 @@ const NewProduct = () => {
           <div className="right">
             <form>
               <div className="formInput">
+                <label>Image</label>
+                <img
+                  src={
+                    file
+                      ? URL.createObjectURL(file)
+                      : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                  }
+                  alt=""
+                />
                 <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
+                  <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
                   type="file"
                   id="file"
-                  multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => setFile(e.target.files[0])}
                   style={{ display: "none" }}
                 />
               </div>

@@ -8,7 +8,7 @@ const ProductSchema = new mongoose.Schema({
       type: String,
     },
     price: {
-      type: [String],
+      type: String,
     },
     sku:{
       type: String,
@@ -17,7 +17,7 @@ const ProductSchema = new mongoose.Schema({
       type: [String],
     },
     tags: {
-      type: String,
+      type: [String],
     },
     author: {
       type: String,
@@ -34,8 +34,11 @@ const ProductSchema = new mongoose.Schema({
     pickup: {
       type: String,
     },
-    hero_image: {
+    product_image: {
       type: String,
+    },
+    product_gallery: {
+      type: [String],
     },
     seo_title: {
       type: String,
