@@ -44,9 +44,11 @@
 
           .formInput {
             width: 40%;
-            img{
+
+            img {
               width: 20%;
             }
+
             label {
               display: flex;
               align-items: center;
@@ -79,4 +81,8 @@
       }
     }
   }
+}
+
+.css-1e2bxag-MuiDataGrid-root .MuiDataGrid-row:not(.MuiDataGrid-row--dynamicHeight)>.MuiDataGrid-cell:nth-child(3) {
+  white-space: unset !important;
 }

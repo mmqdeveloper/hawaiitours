@@ -11,62 +11,61 @@ import { useContext } from "react";
 
 const Sidebars = () => {
   return (
-    <div style={{ display: "flex" , background: '#1976d2'}}>
+    <div style={{ display: "flex" }}>
       <Sidebar className="app">
         <Menu>
           <Link to="/" style={{ textDecoration: "none" }}>
-            <MenuItem className="menu1">
-              <h2>SUPER TOURS</h2>
+            <MenuItem className="menu1 logo">
+              <h2>Hawaii Tours</h2>
             </MenuItem>
           </Link>
           <Menu iconShape="circle" style={{ textDecoration: "none" }}>
             <Link to="/" style={{ textDecoration: "none" }}>
               <MenuItem icon={<DashboardIcon />}>
-                  Dashboard
+                Dashboard
               </MenuItem>
             </Link>
-            <hr />
             <SubMenu label="Users" icon={<PersonOutlineIcon />}>
               <Link to="/users" style={{ textDecoration: "none" }}>
                 <MenuItem>
-                    User Manager
+                  User Manager
                 </MenuItem>
               </Link>
             </SubMenu>
             <SubMenu label="Hotels" icon={<StoreIcon />}>
               <Link to="/hotels" style={{ textDecoration: "none" }}>
-                  <MenuItem>
-                      Hotels Manager
-                  </MenuItem>
+                <MenuItem>
+                  Hotels Manager
+                </MenuItem>
               </Link>
               <Link to="/rooms" style={{ textDecoration: "none" }}>
-                  <MenuItem>
-                      Rooms Manager
-                  </MenuItem>
+                <MenuItem>
+                  Rooms Manager
+                </MenuItem>
               </Link>
             </SubMenu>
             <SubMenu label="Product" icon={<StoreIcon />}>
               <Link to="/product" style={{ textDecoration: "none" }}>
-                  <MenuItem>
-                    Product Manager
-                  </MenuItem>
+                <MenuItem>
+                  Product Manager
+                </MenuItem>
               </Link>
               <Link to="/category" style={{ textDecoration: "none" }}>
-                  <MenuItem>
-                    Categories Manager
-                  </MenuItem>
+                <MenuItem>
+                  Categories Manager
+                </MenuItem>
               </Link>
             </SubMenu>
             <SubMenu label="Booking" icon={<StoreIcon />}>
               <Link to="/booking" style={{ textDecoration: "none" }}>
-                  <MenuItem>
-                      Booking Manager
-                  </MenuItem>
+                <MenuItem>
+                  Booking Manager
+                </MenuItem>
               </Link>
               <Link to="/resource" style={{ textDecoration: "none" }}>
-                  <MenuItem>
-                    Resource Manager
-                  </MenuItem>
+                <MenuItem>
+                  Resource Manager
+                </MenuItem>
               </Link>
             </SubMenu>
           </Menu>

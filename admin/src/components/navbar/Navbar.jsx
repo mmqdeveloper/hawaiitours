@@ -8,17 +8,25 @@ import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutline
 import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
-
+import TextField from '@mui/material/TextField';
+import InputAdornment from '@mui/material/InputAdornment';
 const Navbar = () => {
   const { dispatch } = useContext(DarkModeContext);
 
   return (
     <div className="navbar">
       <div className="wrapper">
-        <div className="search">
-          <input type="text" placeholder="Search..." />
-          <SearchOutlinedIcon />
-        </div>
+        <TextField
+          id="search"
+          label="Search"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <SearchOutlinedIcon />
+              </InputAdornment>
+            ),
+          }}
+        />
         <div className="items">
           <div className="item">
             <LanguageOutlinedIcon className="icon" />

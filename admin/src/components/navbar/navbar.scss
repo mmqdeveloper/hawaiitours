@@ -1,11 +1,9 @@
 .navbar {
-  height: 50px;
-  border-bottom: 0.5px solid rgb(231, 228, 228);
   display: flex;
   align-items: center;
   font-size: 14px;
   color: #555;
-  background: rgb(182 210 238);
+
   .wrapper {
     width: 100%;
     padding: 20px;
@@ -66,6 +64,17 @@
           right: -5px;
         }
       }
+    }
+
+    .css-nxo287-MuiInputBase-input-MuiOutlinedInput-input {
+      padding: 10px;
+    }
+
+    .css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root {
+      -webkit-transform: translate(14px, 10px) scale(1);
+      -moz-transform: translate(14px, 10px) scale(1);
+      -ms-transform: translate(14px, 10px) scale(1);
+      transform: translate(14px, 10px) scale(1);
     }
   }
 }
