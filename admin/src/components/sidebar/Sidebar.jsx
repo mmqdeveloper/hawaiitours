@@ -1,14 +1,15 @@
 import "./sidebar.scss";
 import React from "react";
 import { LevelContext, Menu, MenuContext, MenuItem, MenuItemFR, Sidebar, SidebarContext, SubMenu, SubMenuFR, menuClasses, sidebarClasses, useProSidebar } from 'react-pro-sidebar';
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
-import StoreIcon from "@mui/icons-material/Store";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
-
+import SpaceDashboardOutlinedIcon from '@mui/icons-material/SpaceDashboardOutlined';
+import HotelOutlinedIcon from '@mui/icons-material/HotelOutlined';
+import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
+import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
 const Sidebars = () => {
   return (
     <div style={{ display: "flex" }}>
@@ -21,7 +22,7 @@ const Sidebars = () => {
           </Link>
           <Menu iconShape="circle" style={{ textDecoration: "none" }}>
             <Link to="/" style={{ textDecoration: "none" }}>
-              <MenuItem icon={<DashboardIcon />}>
+              <MenuItem icon={<SpaceDashboardOutlinedIcon />}>
                 Dashboard
               </MenuItem>
             </Link>
@@ -32,7 +33,7 @@ const Sidebars = () => {
                 </MenuItem>
               </Link>
             </SubMenu>
-            <SubMenu label="Hotels" icon={<StoreIcon />}>
+            <SubMenu label="Hotels" icon={<HotelOutlinedIcon />}>
               <Link to="/hotels" style={{ textDecoration: "none" }}>
                 <MenuItem>
                   Hotels Manager
@@ -44,7 +45,7 @@ const Sidebars = () => {
                 </MenuItem>
               </Link>
             </SubMenu>
-            <SubMenu label="Product" icon={<StoreIcon />}>
+            <SubMenu label="Product" icon={<Inventory2OutlinedIcon />}>
               <Link to="/product" style={{ textDecoration: "none" }}>
                 <MenuItem>
                   Product Manager
@@ -56,7 +57,7 @@ const Sidebars = () => {
                 </MenuItem>
               </Link>
             </SubMenu>
-            <SubMenu label="Booking" icon={<StoreIcon />}>
+            <SubMenu label="Booking" icon={<AirplaneTicketOutlinedIcon />}>
               <Link to="/booking" style={{ textDecoration: "none" }}>
                 <MenuItem>
                   Booking Manager
@@ -71,7 +72,7 @@ const Sidebars = () => {
           </Menu>
         </Menu>
       </Sidebar>
-    </div>
+    </div >
   );
 };
 
