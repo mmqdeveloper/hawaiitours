@@ -115,6 +115,15 @@ export const productColumns = [
     field: "author",
     headerName: "Author",
     width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <h4 className="cellImg">
+            {params.row.author}
+          </h4>
+        </div>
+      );
+    },
   },
   {
     field: "badge",

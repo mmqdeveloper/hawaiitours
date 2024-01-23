@@ -264,7 +264,7 @@ const NewProduct = () => {
                 <select id="author" onChange={handleChange} value={info.author}>
                   <option value="">Select an author</option>
                   {userList.map((user) => (
-                    <option key={user._id} value={user._id}>
+                    <option key={user._id} value={user.username}>
                       {user.username}
                     </option>
                   ))}
