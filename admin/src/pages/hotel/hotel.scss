@@ -15,7 +15,7 @@
       display: flex;
 
       h1 {
-        color: lightgray;
+        color: #999;
         font-size: 20px;
       }
 
@@ -33,7 +33,6 @@
 
       .right {
         flex: 2;
-        padding: 0px 20px;
 
         form {
           display: flex;
@@ -41,10 +40,10 @@
           gap: 30px;
           justify-content: space-between;
 
-          .selectRooms{
+          .selectRooms {
             width: 100%;
 
-            select{
+            select {
               width: 100%;
               padding: 10px;
             }

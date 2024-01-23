@@ -6,7 +6,11 @@ import { useState, useEffect } from "react";
 import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
-
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 const NewCategory = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
@@ -71,43 +75,47 @@ const NewCategory = () => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
-          <h1>Add New Category</h1>
         </div>
         <div className="bottom">
           <div className="right">
             <form>
+              <h1>Add New Category</h1>
               {categoryInputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
+                  <TextField
                     id={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
+                    label={input.label}
+                    variant="outlined"
                     onChange={handleChange}
                   />
                 </div>
               ))}
               <div className="formInput">
-                <label>Parent Category</label>
-                <select
-                  id="parentCategory"
-                  value={parentCategory}
-                  onChange={handleParentCategoryChange}
-                >
-                  <option value="None">None</option>
-                  {category.map((category) => (
-                    <option key={category._id} value={category._id}>
-                      {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
-                    </option>
-                  ))}
-                </select>
+                <FormControl>
+                  <InputLabel id="parentCategory-label">Category</InputLabel>
+                  <Select
+                    labelId="parentCategory-label"
+                    id="parentCategory"
+                    label="Category"
+                    value={parentCategory}
+                    onChange={handleParentCategoryChange}
+                  >
+                    <option value={parentCategory}>None</option>
+                    {category.map((category) => (
+                      <MenuItem key={category._id} value={category._id}>
+                        {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
               </div>
               <div className="formInput">
-                <label>Description</label>
-                <input
+                <TextField
+                  required
                   id="description"
-                  type="text"
-                  placeholder=""
+                  label="Description"
+                  defaultValue={info.description || ""}
+                  value={info.description || ""}
                   onChange={handleChange}
                 />
               </div>
