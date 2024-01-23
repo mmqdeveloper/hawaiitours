@@ -10,7 +10,7 @@ import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns } from "./datatablesource";
+import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns, roleColumns, permissionCateColumns } from "./datatablesource";
 import NewHotel from "./pages/hotel/NewHotel";
 import NewRoom from "./pages/room/NewRoom";
 import NewProduct from "./pages/product/NewProduct";
@@ -186,6 +186,49 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <EditCategory inputs={categoryInputs} title="Edit Category" />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="role">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <List columns={roleColumns} />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":id"
+                element={
+                  <ProtectedRoute>
+                    <Single />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <ProtectedRoute>
+                    <NewCategory  />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit/:id"
+                element={
+                  <ProtectedRoute>
+                    <EditCategory inputs={categoryInputs} title="Edit Category" />
+                  </ProtectedRoute>
+                }
+              />
+
+              <Route
+                path="permission-category"
+                element={
+                  <ProtectedRoute>
+                    <List columns={permissionCateColumns} />
                   </ProtectedRoute>
                 }
               />

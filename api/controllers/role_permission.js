@@ -261,6 +261,7 @@ const getAllRoles = async (req, res, next) => {
     try {
         const roles = await Role.find().populate({path: 'permissions', select: 'name'});
 
+        
         res.status(200).json(roles)
     } catch (error) {
         res.status(500).json({ error: "Internal Server Error" });

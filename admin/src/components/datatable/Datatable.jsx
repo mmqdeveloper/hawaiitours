@@ -14,6 +14,7 @@ const Datatable = ({columns}) => {
   const { data, loading, error } = useFetch(`/${path}`);
 
   useEffect(() => {
+    console.log(path);
     // Update the list only if data is defined
     if (data) {
       setList(data);

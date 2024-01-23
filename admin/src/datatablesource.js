@@ -199,3 +199,18 @@ export const categoryColumns = [
     width: 100,
   },
 ];
+
+const countPermissions = (row) => {
+  return row.row.permissions ? row.row.permissions.length : 0;
+};
+
+export const roleColumns = [
+  { field: "_id", headerName: "ID", width: 250 },
+  { field: "name", headerName: "Name"},
+  { field: "permissions", headerName: "Count Permission", width: 250, valueGetter: countPermissions },
+]
+
+export const permissionCateColumns = [
+  { field: "_id", headerName: "ID", width: 250 },
+  { field: "name", headerName: "Name", width: 250 },
+]

@@ -79,7 +79,8 @@ export const login = async (req, res, next) => {
     }
     const token = jwt.sign(
       { id: user._id, role: roleToken },
-      process.env.JWT
+      process.env.JWT,
+      {expiresIn: '1y'}
     );
     const { password, role, ...otherDetails } = user._doc;
     res
@@ -87,7 +88,44 @@ export const login = async (req, res, next) => {
         httpOnly: true,
       })
       .status(200)
-      .json({ details: { ...otherDetails }, role });
+      .json({ data: { ...otherDetails, role: roleToken  }, token });
+  } catch (err) {
+    next(err);
+  }
+};
+
+export const loginByToken = async (req, res, next) => {
+  try {
+    const tokenReq = req.headers.authorization;
+
+    if (!tokenReq) return next(createError(403, "Invalid token"));
+    jwt.verify(tokenReq.split(" ")[1], process.env.JWT, async (err, decoded) => {
+      if(err) return next(createError(403, "Token is not valid!"));
+      console.log(decoded);
+      const user = await User.findById(decoded.id);
+      if (!user) {
+        return next(createError(404, "User not Found"));
+      }
+
+      let roleToken = {};
+      if (user.role) {
+        const checkRole = await Role.findById(user.role).populate({path: "permissions", select: "name"});
+        if (checkRole) {
+          roleToken.name = checkRole.name;
+          roleToken.permissions = checkRole.permissions.map(permission => permission.name);
+        }
+      }
+
+      const token = jwt.sign(
+        { id: user._id, role: roleToken },
+        process.env.JWT,{expiresIn: '1y'}
+      );
+      const { password, role, ...otherDetails } = user._doc;
+
+      return res.cookie("access_token", token, {httpOnly: true,}).status(200).json({ data: { ...otherDetails, role: roleToken  }, token });
+
+      });
+
   } catch (err) {
     next(err);
   }

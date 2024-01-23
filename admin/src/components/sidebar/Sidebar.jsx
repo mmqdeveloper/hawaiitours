@@ -69,6 +69,23 @@ const Sidebars = () => {
                   </MenuItem>
               </Link>
             </SubMenu>
+            <SubMenu label="User Roles" icon={<StoreIcon />}>
+              <Link to="/role/permission-category" style={{ textDecoration: "none" }}>
+                  <MenuItem>
+                      Permission Categories
+                  </MenuItem>
+              </Link>
+              <Link to="/role/permission" style={{ textDecoration: "none" }}>
+                  <MenuItem>
+                    Permissions
+                  </MenuItem>
+              </Link>
+              <Link to="/role" style={{ textDecoration: "none" }}>
+                  <MenuItem>
+                    Roles
+                  </MenuItem>
+              </Link>
+            </SubMenu>
           </Menu>
         </Menu>
       </Sidebar>

@@ -1,10 +1,18 @@
+import Role from "../models/Role.js";
 import User from "../models/User.js";
 import { authValidations } from "../validations/authValidations.js";
 
 export const updateUser = async (req,res,next)=>{
   try {
     const updatedUserReq = req.body;
-    const {error} = authValidations.authValidations.validate(updatedUserReq);
+    console.log(updatedUserReq.role);
+    // const {error} = authValidations.authValidations.validate(updatedUserReq);
+    const {error} = authValidations.registerValidation.validate(updatedUserReq);
+    const checkRole = await Role.findOne({name: updatedUserReq.role});
+    if (!checkRole) return next(createError(404, "Role not found"));
+
+    updatedUserReq.role = checkRole._id;
+
 
     if (error) {
       return res.status(400).json({message: error.details[0].message});
@@ -12,7 +20,7 @@ export const updateUser = async (req,res,next)=>{
 
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
-      { $set: req.body },
+      { $set: updatedUserReq },
       { new: true }
     );
     res.status(200).json(updatedUser);
