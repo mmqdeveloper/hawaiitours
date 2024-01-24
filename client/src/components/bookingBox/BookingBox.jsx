@@ -3,7 +3,7 @@ import { PayPalButton } from "react-paypal-button-v2";
 
 const BookingBox = () => {
   const handlePayPalSuccess = (details, data) => {
-    
+    console.log("Payment Success")
   };
 
   return (
