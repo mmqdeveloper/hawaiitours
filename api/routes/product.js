@@ -23,7 +23,7 @@ router.put("/:id", verifyAdmin, updateProduct);
 router.delete("/:id", verifyAdmin, deleteProduct);
 
 //GET
-router.get("/find/:id", getProduct);
+router.get("/:id", getProduct);
 
 //GET ALL
 router.get("/", getProducts);
