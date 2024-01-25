@@ -248,6 +248,7 @@ const NewProduct = () => {
               <div className="formInput">
                 <label>Categories</label>
                 <select id="categories" onChange={handleSelect} value={category}>
+                  <option value="None">None</option>
                   {categoryLoading
                     ? "Loading"
                     : categoryData &&
