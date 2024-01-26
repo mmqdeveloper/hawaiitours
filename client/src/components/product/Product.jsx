@@ -42,6 +42,7 @@ const AllProduct = () => {
                 />
                 <h3 className="productName">{product.name}</h3>
                 <p className="productDescription">{product.desc}</p>
+                <p className="productPrice">${product.price}</p>
               </a>
             </li>
           )
