@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./product.css";
+import ReactHtmlParser from 'react-html-parser';
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -41,8 +42,8 @@ const AllProduct = () => {
                   className="productImage"
                 />
                 <h3 className="productName">{product.name}</h3>
-                <p className="productDescription">{product.desc}</p>
-                <p className="productPrice">${product.price}</p>
+                <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
+                <p className="productPrice">{product.price}</p>
               </a>
             </li>
           )

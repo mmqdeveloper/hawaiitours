@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import ReactHtmlParser from 'react-html-parser';
 import axios from "axios";
 import "./productDetail.css";
 import BookingBox from "../../components/bookingBox/BookingBox";
@@ -50,7 +51,7 @@ const ProductDetail = () => {
           />
         </div>
         <div className="productDetailInfo">
-          <p className="productDetailDescription">{product.desc}</p>
+          <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
           <p className="productDetailPrice">Price: ${product.price}</p>
         </div>
       </section>
