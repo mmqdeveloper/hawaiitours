@@ -280,7 +280,7 @@ const NewProduct = () => {
                 </select>
               </div>
 
-              <button onClick={handleClick}>Send</button>
+              <button className="btn-save" onClick={handleClick}>Send</button>
             </form>
           </div>
         </div>

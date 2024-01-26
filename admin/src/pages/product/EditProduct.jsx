@@ -2,6 +2,8 @@ import "./product.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useState, useEffect } from "react";
 import { productInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
@@ -138,10 +140,9 @@ const EditProduct = () => {
 
               <div className="formInput">
                 <label>Description</label>
-                <input
+                <ReactQuill
                   id="desc"
-                  onChange={handleChange}
-                  type="text"
+                  onChange={(value) => handleChange({ target: { id: 'desc', value } })}
                   placeholder="Enter description"
                   value={info.desc || ""}
                 />
