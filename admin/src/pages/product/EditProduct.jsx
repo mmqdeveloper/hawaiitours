@@ -20,32 +20,14 @@ const EditProduct = () => {
   
   const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
 
-  console.log("test  "+ defaultCategory)
-
-  useEffect(() => {
-    console.log(categoryData);
-    if (categoryData) {
-      setCategory(categoryData);
-      const selectedCategory = categoryData.find((cat) => cat._id === categoryId);
-      console.log(selectedCategory)
-      if (selectedCategory) {
-        setInfo({
-          parentCategory: selectedCategory.parentCategory,
-        });
-        setDefaultCategory(selectedCategory.parentCategory || "None");
-        console.log("Updated info:", info);
-      }
-    }
-  }, [categoryData, categoryId]);
-
   useEffect(() => {
     const fetchProductData = async () => {
       try {
         const response = await axios.get(`/product/${productId}`);
         const productData = response.data;
-        
         setInfo(productData);
         setCategory(productData.categories);
+        setDefaultCategory(productData.categories || "None");
       } catch (error) {
         console.error(error);
       }
@@ -53,12 +35,6 @@ const EditProduct = () => {
 
     fetchProductData();
   }, [productId]);
-
-  // useEffect(() => {
-  //   if (categoryData) {
-  //     setCategory(categoryData);
-  //   }
-  // }, [categoryData]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -77,11 +53,6 @@ const EditProduct = () => {
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
-
-  // const handleSelect = (e) => {
-  //   const value = Array.from(e.target.selectedOptions, (option) => option.value);
-  //   setCategory(value);
-  // };
 
   const handleParentCategoryChange = (e) => {
     setDefaultCategory(e.target.value);
@@ -104,7 +75,7 @@ const EditProduct = () => {
         );
         url = uploadRes.data.url;
       } else {
-        url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+        url = info.product_image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
       }
 
       const parentCategoryName = defaultCategory;
@@ -122,20 +93,6 @@ const EditProduct = () => {
     }
   };
 
-  const renderInput = (input) => (
-    <div className="formInput" key={input.id}>
-      <label>{input.label}</label>
-      <input
-        id={input.id}
-        onChange={handleChange}
-        type={input.type}
-        placeholder={input.placeholder}
-        value={info[input.id] || ""}
-      />
-    </div>
-  );
-
-  // Render component
   return (
     <div className="new">
       <Sidebar />
@@ -153,7 +110,7 @@ const EditProduct = () => {
                   src={
                     file
                       ? URL.createObjectURL(file)
-                      : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                      : info.product_image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
                   }
                   alt=""
                 />
