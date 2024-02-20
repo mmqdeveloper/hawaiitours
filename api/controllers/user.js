@@ -1,11 +1,12 @@
 import Role from "../models/Role.js";
 import User from "../models/User.js";
+import { createError } from "../utils/error.js";
+import { ResponseSuccess } from "../utils/responseSuccess.js";
 import { authValidations } from "../validations/authValidations.js";
 
 export const updateUser = async (req,res,next)=>{
   try {
     const updatedUserReq = req.body;
-    console.log(updatedUserReq.role);
     // const {error} = authValidations.authValidations.validate(updatedUserReq);
     const {error} = authValidations.registerValidation.validate(updatedUserReq);
     const checkRole = await Role.findOne({name: updatedUserReq.role});
@@ -23,7 +24,7 @@ export const updateUser = async (req,res,next)=>{
       { $set: updatedUserReq },
       { new: true }
     );
-    res.status(200).json(updatedUser);
+    return ResponseSuccess(updatedUser, res, "Updated Successfully")
   } catch (err) {
     next(err);
   }
@@ -31,15 +32,18 @@ export const updateUser = async (req,res,next)=>{
 export const deleteUser = async (req,res,next)=>{
   try {
     await User.findByIdAndDelete(req.params.id);
-    res.status(200).json("User has been deleted.");
+    if (!User) {
+      return createError(500, "User not found!"); 
+    }
+    return ResponseSuccess(User, res, "Deleted User Successfully");
   } catch (err) {
-    next(err);
+    return createError(500, "Delete User Error");
   }
 }
 export const getUser = async (req,res,next)=>{
   try {
-    const user = await User.findById(req.params.id);
-    res.status(200).json(user);
+    const user = await User.findById(req.params.id).populate({path: "role", select: "name"});
+    return ResponseSuccess(user, res ,"Get User Successfully");
   } catch (err) {
     next(err);
   }
@@ -47,7 +51,7 @@ export const getUser = async (req,res,next)=>{
 export const getUsers = async (req,res,next)=>{
   try {
     const users = await User.find().populate({path: 'role', select: 'name'});
-    res.status(200).json(users);
+    return ResponseSuccess(users, res ,"Get List Successfully");
   } catch (err) {
     next(err);
   }

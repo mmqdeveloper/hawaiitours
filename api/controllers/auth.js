@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import errors from "../constants/errors.js";
 import { authValidations } from "../validations/authValidations.js";
 import Role from "../models/Role.js";
+import { ResponseSuccess } from "../utils/responseSuccess.js";
 
 export const register = async (req, res, next) => {
   try {
@@ -12,7 +13,8 @@ export const register = async (req, res, next) => {
     const {error} = authValidations.registerValidation.validate(registerReq);
     
     if (error) {
-      return res.status(400).json({message: error.details[0].message});
+      // return res.status(400).json({message: error.details[0].message});
+      return next(createError(400, error.details[0].message))
     }
    
     const token = req.cookies.access_token;
@@ -52,7 +54,7 @@ export const register = async (req, res, next) => {
     });
 
     await newUser.save();
-    res.status(200).send("User has been created.");
+    return ResponseSuccess(null, res, "User has been created.");
   } catch (err) {
     next(err);
   }

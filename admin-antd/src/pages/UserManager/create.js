@@ -1,13 +1,25 @@
-import { Button, Card, Col, Input, Row, Form, Select } from "antd";
+import { Button, Card, Col, Input, Row, Form, Select, notification, Spin } from "antd";
 import { PageTitle } from "../../components/TitlesTypo";
 import { validateMessages } from "../../constants/validateMessage";
 import SelectRole from "../../components/Selects/SelectRole";
 import { useEffect, useState } from "react";
 import axiosInstance from '../../configs/axiosConfig';
+import NotificationComponent from "../../components/Notifications";
+import { useNavigate } from "react-router-dom";
+import { LoadingOutlined } from '@ant-design/icons';
 
 const UserCreate = () => {
     const [roles, setRoles] = useState([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
+  const [api, contextHolder] = notification.useNotification()
+  const openNotificationWithIcon = (type, message , desc) => {
+    api[type]({
+      message: message,
+      description: desc,
+      type,
+    })
+  }
     const fetchFilter = async () => {
         try {
             setLoading(true);
@@ -32,19 +44,32 @@ const UserCreate = () => {
     const [form] = Form.useForm()
     const { Option } = Select;
     const SubmitForm = async (values) => {
+        const submitValues = {...values, contactInfo: {
+            website: values.website,
+        }}
+
+        const {website, ...data} = submitValues;
         try {
-          const response = await axiosInstance.post('/auth/register', values);
-      
-          
-          console.log('Response from API:', response.data);
-      
-          form.resetFields();
+            setLoading(true);
+            const response = await axiosInstance.post('/auth/register', data);
+        
+            if (response.success) {
+                openNotificationWithIcon('success', "Create Success" ,response.message) 
+                navigate('/users');
+                form.resetFields();
+            }else{
+                openNotificationWithIcon('error', "Create Error", response.message) 
+            }
+            setLoading(false);
         } catch (error) {
-          console.error('Error sending data to API:', error);
+            setLoading(false);
+            console.error('Error sending data to API:', error);
+            openNotificationWithIcon('error', "Create Error", error.message)
         }
       }
     return (
         <>
+        {contextHolder}
         <PageTitle title={"Add New User"} />
         <div className="site-card-border-less-wrapper">
             <Card
@@ -124,11 +149,10 @@ const UserCreate = () => {
                         rules={[
                             {
                             required: true,
-                            type: 'number',
                             },
                         ]}
                         >
-                        <Input placeholder={'Email'} />
+                        <Input placeholder={'Phone'} />
                     </Form.Item>
                     <Form.Item
                         label="Website"
@@ -164,15 +188,27 @@ const UserCreate = () => {
                             placeholder="Select Role"
                         >
                             {roles?.map((item) => (
-                            <Option key={item.value} value={item.value}>
+                            <Option key={item.value} value={item.label}>
                                 {item.label}
                             </Option>
                         ))}
                     </Select>
                     </Form.Item>
                     <Form.Item>
-                        <Button htmlType="submit" type="primary">
+                        <Button htmlType="submit" type="primary" disabled={loading}>
                             Submit
+                            {loading && 
+                                <Spin
+                                    indicator={
+                                    <LoadingOutlined
+                                        style={{
+                                        fontSize: 24,
+                                        }}
+                                        spin
+                                    />
+                                    }
+                                />
+                            }
                         </Button>
                     </Form.Item>
                 </Form>
