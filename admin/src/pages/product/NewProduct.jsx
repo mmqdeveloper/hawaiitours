@@ -6,7 +6,12 @@ import { useState } from "react";
 import { productInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
-
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
+import Button from '@mui/material/Button';
 const NewProduct = () => {
   const [files, setFiles] = useState("");
   const [info, setInfo] = useState({});
@@ -25,7 +30,7 @@ const NewProduct = () => {
     );
     setCategory(value);
   };
-  
+
   console.log(files)
 
   const handleClick = async (e) => {
@@ -53,32 +58,27 @@ const NewProduct = () => {
       };
 
       await axios.post("/product/add", newproduct);
-    } catch (err) {console.log(err)}
+    } catch (err) { console.log(err) }
   };
   return (
     <div className="new">
       <Sidebar />
       <div className="newContainer">
         <Navbar />
-        <div className="top">
-          <h1>Add New Product</h1>
-        </div>
         <div className="bottom">
-          <div className="left">
-            <img
-              src={
-                files
-                  ? URL.createObjectURL(files[0])
-                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-              }
-              alt=""
-            />
-          </div>
           <div className="right">
+            <h1 className="title">Add New Product</h1>
             <form>
-              <div className="formInput">
-                <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
+              <div className="formInput avatar">
+                <label className="images" htmlFor="file">
+                  <img
+                    src={
+                      files
+                        ? URL.createObjectURL(files[0])
+                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+                    }
+                    alt=""
+                  />
                 </label>
                 <input
                   type="file"
@@ -91,36 +91,63 @@ const NewProduct = () => {
 
               {productInputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
+                  <TextField
                     id={input.id}
+                    label={input.label}
+                    variant="outlined"
                     onChange={handleChange}
-                    type={input.type}
-                    placeholder={input.placeholder}
                   />
                 </div>
               ))}
               <div className="formInput">
-                <label>Featured</label>
-                <select id="featured" onChange={handleChange}>
-                  <option value={false}>No</option>
-                  <option value={true}>Yes</option>
-                </select>
+
+                <FormControl>
+                  <InputLabel id="featured-label">Featured</InputLabel>
+                  <Select
+                    labelId="featured-label"
+                    id="featured"
+                    label="Featured"
+                    onChange={handleChange}
+                  >
+                    <MenuItem value={false}>No</MenuItem>
+                    <MenuItem value={true}>Yes</MenuItem>
+                  </Select>
+                </FormControl>
               </div>
-              <div className="selectCategory">
-                <label>Category</label>
+              <div className="formInput">
                 <select id="category" multiple onChange={handleSelect}>
                   {loading
                     ? "loading"
                     : data &&
-                      data.map((category) => (
-                        <option key={category._id} value={category._id}>
-                          {category.title}
-                        </option>
-                      ))}
+                    data.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.title}
+                      </option>
+                    ))}
                 </select>
+                <FormControl>
+                  <InputLabel id="category-label">Category</InputLabel>
+                  <Select
+                    labelId="category-label"
+                    id="category"
+                    label="Category"
+                    onChange={handleChange}
+                  >
+                    {loading
+                      ? "loading"
+                      : data &&
+                      data.map((category) => (
+                        <MenuItem
+                          key={category._id}
+                          value={category._id}
+                        >
+                          {category.title}
+                        </MenuItem>
+                      ))}
+                  </Select>
+                </FormControl>
               </div>
-              <button onClick={handleClick}>Send</button>
+              <Button onClick={handleClick} variant="contained">Send</Button>
             </form>
           </div>
         </div>

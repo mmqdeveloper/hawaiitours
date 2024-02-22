@@ -100,7 +100,7 @@ const NewCategory = () => {
                     value={parentCategory}
                     onChange={handleParentCategoryChange}
                   >
-                    <option value={parentCategory}>None</option>
+                    <MenuItem value={parentCategory}>None</MenuItem>
                     {category.map((category) => (
                       <MenuItem key={category._id} value={category._id}>
                         {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
