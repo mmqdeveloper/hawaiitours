@@ -1,86 +1,88 @@
 /* ProductDetail.css */
+.productDetailContainer .paypal-buttons:nth-child(2){
+  display: none !important;
+}
+.productDetailContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.productDetailHeader {
+  text-align: center;
+}
+
+.productDetailBody {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.productDetailImageContainer {
+  flex: 1;
+}
+
+.productDetailImage {
+  max-width: 100%;
+  height: auto;
+}
+
+.productDetailInfo {
+  flex: 1;
+  margin-left: 20px;
+}
+
+.productDetailDescription {
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.productDetailPrice {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.productDetailImageContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.productDetailImage {
+  width: 100%;
+  cursor: pointer;
+}
+
+.largeImageOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.largeImage {
+  max-width: 90%;
+  max-height: 90%;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 
 .productDetailContainer {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .productDetailHeader {
-    text-align: center;
-  }
-  
-  .productDetailBody {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-  }
-  
-  .productDetailImageContainer {
-    flex: 1;
-  }
-  
-  .productDetailImage {
-    max-width: 100%;
-    height: auto;
-  }
-  
-  .productDetailInfo {
-    flex: 1;
-    margin-left: 20px;
-  }
-  
-  .productDetailDescription {
-    font-size: 16px;
-    line-height: 1.6;
-  }
-  
-  .productDetailPrice {
-    font-size: 18px;
-    font-weight: bold;
-    margin-top: 10px;
-  }
-  
-  .productDetailImageContainer {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .productDetailImage {
-    width: 100%;
-    cursor: pointer;
-  }
-  
-  .largeImageOverlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .largeImage {
-    max-width: 90%;
-    max-height: 90%;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  .productDetailContainer {
-    animation: fadeIn 0.5s ease-in-out;
-  }
+  animation: fadeIn 0.5s ease-in-out;
+}
