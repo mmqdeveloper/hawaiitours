@@ -91,23 +91,19 @@ const NewCategory = () => {
                 </div>
               ))}
               <div className="formInput">
-                <FormControl>
-                  <InputLabel id="parentCategory-label">Category</InputLabel>
-                  <Select
-                    labelId="parentCategory-label"
-                    id="parentCategory"
-                    label="Category"
-                    value={parentCategory}
-                    onChange={handleParentCategoryChange}
-                  >
-                    <MenuItem value={parentCategory}>None</MenuItem>
-                    {category.map((category) => (
-                      <MenuItem key={category._id} value={category._id}>
-                        {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
+                <label>Parent Category</label>
+                <select
+                  id="parentCategory"
+                  value={parentCategory}
+                  onChange={handleParentCategoryChange}
+                >
+                  <option value="None">None</option>
+                  {category.map((category) => (
+                    <option key={category._id} value={category._id}>
+                      {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
+                    </option>
+                  ))}
+                </select>
               </div>
               <div className="formInput">
                 <TextField
@@ -139,7 +135,7 @@ const NewCategory = () => {
                   style={{ display: "none" }}
                 />
               </div>
-              <button onClick={handleClick}>Send</button>
+              <button className="btn-save" onClick={handleClick}>Send</button>
             </form>
           </div>
         </div>

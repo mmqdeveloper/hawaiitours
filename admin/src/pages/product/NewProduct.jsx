@@ -1,33 +1,46 @@
+import React, { useState, useEffect } from "react";
 import "./product.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
-import { productInputs } from "../../formSource";
+import axios from "axios";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
-import Button from '@mui/material/Button';
-const NewProduct = () => {
-  const [files, setFiles] = useState("");
-  const [info, setInfo] = useState({});
-  const [category, setCategory] = useState([]);
 
-  const { data, loading, error } = useFetch("/category");
+const NewProduct = () => {
+  const [info, setInfo] = useState({});
+  const [file, setFile] = useState("");
+  const [category, setCategory] = useState([]);
+  const [userList, setUserList] = useState([]);
+
+  const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
+
+  useEffect(() => {
+    if (categoryData) {
+      setCategory(categoryData);
+    }
+  }, [categoryData]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await axios.get("/users");
+        setUserList(response.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
   const handleSelect = (e) => {
-    const value = Array.from(
-      e.target.selectedOptions,
-      (option) => option.value
-    );
+    const value = Array.from(e.target.selectedOptions, (option) => option.value);
     setCategory(value);
   };
 
@@ -35,86 +48,82 @@ const NewProduct = () => {
 
   const handleClick = async (e) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append("file", file);
+    data.append("upload_preset", "upload");
     try {
-      const list = await Promise.all(
-        Object.values(files).map(async (file) => {
-          const data = new FormData();
-          data.append("file", file);
-          data.append("upload_preset", "upload");
-          const uploadRes = await axios.post(
-            "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
-            data
-          );
+      let url;
 
-          const { url } = uploadRes.data;
-          return url;
-        })
-      );
+      if (file) {
+        const uploadRes = await axios.post(
+          "https://api.cloudinary.com/v1_1/dizjrni3i/image/upload",
+          data
+        );
+        url = uploadRes.data.url;
+      } else {
+        url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
+      }
 
-      const newproduct = {
+      const newProduct = {
         ...info,
-        category,
-        photos: list,
+        categories: category,
+        product_image: url,
       };
 
       await axios.post("/product/add", newproduct);
     } catch (err) { console.log(err) }
   };
+
   return (
     <div className="new">
       <Sidebar />
       <div className="newContainer">
         <Navbar />
         <div className="bottom">
+          <div className="left">
+            <img
+              src={
+                files
+                  ? URL.createObjectURL(files[0])
+                  : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
+              }
+              alt=""
+            />
+          </div>
           <div className="right">
-            <h1 className="title">Add New Product</h1>
             <form>
-              <div className="formInput avatar">
-                <label className="images" htmlFor="file">
-                  <img
-                    src={
-                      files
-                        ? URL.createObjectURL(files[0])
-                        : "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"
-                    }
-                    alt=""
-                  />
+              <div className="formInput">
+                <label htmlFor="file">
+                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
                   type="file"
                   id="file"
-                  multiple
-                  onChange={(e) => setFiles(e.target.files)}
+                  onChange={(e) => setFile(e.target.files[0])}
                   style={{ display: "none" }}
                 />
               </div>
 
               {productInputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  <TextField
+                  <label>{input.label}</label>
+                  <input
                     id={input.id}
-                    label={input.label}
-                    variant="outlined"
                     onChange={handleChange}
+                    type={input.type}
+                    placeholder={input.placeholder}
                   />
                 </div>
               ))}
               <div className="formInput">
-
-                <FormControl>
-                  <InputLabel id="featured-label">Featured</InputLabel>
-                  <Select
-                    labelId="featured-label"
-                    id="featured"
-                    label="Featured"
-                    onChange={handleChange}
-                  >
-                    <MenuItem value={false}>No</MenuItem>
-                    <MenuItem value={true}>Yes</MenuItem>
-                  </Select>
-                </FormControl>
+                <label>Featured</label>
+                <select id="featured" onChange={handleChange}>
+                  <option value={false}>No</option>
+                  <option value={true}>Yes</option>
+                </select>
               </div>
-              <div className="formInput">
+              <div className="selectCategory">
+                <label>Category</label>
                 <select id="category" multiple onChange={handleSelect}>
                   {loading
                     ? "loading"
@@ -147,7 +156,7 @@ const NewProduct = () => {
                   </Select>
                 </FormControl>
               </div>
-              <Button onClick={handleClick} variant="contained">Send</Button>
+              <button onClick={handleClick}>Send</button>
             </form>
           </div>
         </div>

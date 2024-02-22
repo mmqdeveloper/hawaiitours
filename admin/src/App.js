@@ -17,6 +17,7 @@ import NewRoom from "./pages/room/NewRoom";
 import NewProduct from "./pages/product/NewProduct";
 import NewCategory from "./pages/category/NewCategory";
 import EditCategory from "./pages/category/EditCategory";
+import EditProduct from "./pages/product/EditProduct";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -153,6 +154,14 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <NewProduct />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit/:productId"
+                element={
+                  <ProtectedRoute>
+                    <EditProduct inputs={productInputs} title="Edit Product" />
                   </ProtectedRoute>
                 }
               />

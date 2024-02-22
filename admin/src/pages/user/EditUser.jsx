@@ -106,7 +106,7 @@ const EditUser = ({ inputs, title }) => {
                   />
                 </div>
               ))}
-              <button onClick={handleClick}>Save Changes</button>
+              <button className="btn-save" onClick={handleClick}>Save Changes</button>
             </form>
           </div>
         </div>

@@ -102,7 +102,7 @@ export const productColumns = [
     width: 230,
   },
   {
-    field: "category",
+    field: "categories",
     headerName: "Categories",
     width: 200,
   },
@@ -115,6 +115,15 @@ export const productColumns = [
     field: "author",
     headerName: "Author",
     width: 200,
+    renderCell: (params) => {
+      return (
+        <div className="cellWithImg">
+          <h4 className="cellImg">
+            {params.row.author}
+          </h4>
+        </div>
+      );
+    },
   },
   {
     field: "badge",
@@ -136,11 +145,24 @@ export const productColumns = [
     headerName: "Pickup",
     width: 200,
   },
-  {
-    field: "hero_image",
-    headerName: "Hero Image",
-    width: 300,
-  },
+  // {
+  //   field: "product_image",
+  //   headerName: "Product Image",
+  //   width: 200,
+  //   renderCell: (params) => {
+  //     return (
+  //       <div className="cellWithImg">
+  //         <img className="cellImg" src={params.row.product_image || "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg"} alt="avatar" />
+  //         {params.row.name}
+  //       </div>
+  //     );
+  //   },
+  // },
+  // {
+  //   field: "product_gallery",
+  //   headerName: "Product Gallery",
+  //   width: 300,
+  // },
   {
     field: "seo_title",
     headerName: "SEO Title",
