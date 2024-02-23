@@ -2,6 +2,8 @@ import "./category.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useState, useEffect } from "react";
 import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
@@ -104,11 +106,11 @@ const NewCategory = () => {
               </div>
               <div className="formInput">
                 <label>Description</label>
-                <input
-                  id="description"
-                  type="text"
-                  placeholder=""
-                  onChange={handleChange}
+                <ReactQuill
+                  id="desc"
+                  onChange={(value) => handleChange({ target: { id: 'desc', value } })}
+                  placeholder="Enter description"
+                  value={info.desc || ""}
                 />
               </div>
               <div className="formInput">

@@ -1,6 +1,8 @@
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useState } from "react";
 import { resourceInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
@@ -26,6 +28,10 @@ const NewResource = () => {
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+  };
+
+  const handleCalendarChange = (date) => {
+    setInfo((prev) => ({ ...prev, calendar: date }));
   };
 
   const handleClick = async (e) => {
@@ -82,11 +88,11 @@ const NewResource = () => {
               ))}
               <div className="formInput">
                 <label>Description</label>
-                <input
-                  id="description"
-                  type="text"
-                  placeholder=""
-                  onChange={handleChange}
+                <ReactQuill
+                  id="desc"
+                  onChange={(value) => handleChange({ target: { id: 'desc', value } })}
+                  placeholder="Enter description"
+                  value={info.desc || ""}
                 />
               </div>
               <div className="formInput">
@@ -107,15 +113,6 @@ const NewResource = () => {
                   id="file"
                   onChange={handleFileChange}
                   style={{ display: "none" }}
-                />
-              </div>
-              <div className="formInput">
-                <label>Calendar</label>
-                <input
-                  id="calendar"
-                  type="date"
-                  placeholder=""
-                  onChange={handleChange}
                 />
               </div>
               <div className="formInput">
