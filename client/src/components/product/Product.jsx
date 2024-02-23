@@ -41,9 +41,16 @@ const AllProduct = () => {
                   alt={product.name}
                   className="productImage"
                 />
-                <h3 className="productName">{product.name}</h3>
-                <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
-                <p className="productPrice">{product.price}</p>
+                <div className="info">
+                  <h3 className="productName">{product.name}</h3>
+                  <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
+                  <p className="productPrice">
+                    <span>From</span>
+                    <span className="price">
+                      ${product.price}
+                    </span>
+                  </p>
+                </div>
               </a>
             </li>
           )
