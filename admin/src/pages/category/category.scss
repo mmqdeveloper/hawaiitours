@@ -55,7 +55,7 @@
             }
 
             img {
-              width: 30%;
+              width: 350px;
             }
 
             label {
@@ -68,11 +68,32 @@
               }
             }
 
-            input {
+            input,
+            select {
               width: 100%;
               padding: 10px;
-              border: none;
-              border-bottom: unset;
+              border: 1px solid #ababab;
+              box-sizing: border-box;
+              border-radius: 4px;
+            }
+
+            &:first-child {
+              border: 1px solid #ababab;
+              width: max-content;
+              border-radius: 4px;
+
+              label {
+                cursor: pointer;
+                justify-content: center;
+              }
+            }
+
+            .quill {
+              border-radius: 4px;
+
+              .ql-container {
+                min-height: 150px;
+              }
             }
           }
 
