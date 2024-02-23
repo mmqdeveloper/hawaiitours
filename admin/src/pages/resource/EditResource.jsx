@@ -146,6 +146,13 @@ const EditResource = () => {
                 style={{ display: "none" }}
               />
             </div>
+            <div className="formInput">
+                <label>Status</label>
+                <select id="status" onChange={handleChange} value={info.status}>
+                  <option value={false}>Private</option>
+                  <option value={true}>Public</option>
+                </select>
+              </div>
             <button className="btn-save" onClick={handleClick}>Save Changes</button>
             </form>
           </div>

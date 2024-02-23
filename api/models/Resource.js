@@ -5,7 +5,7 @@ const ResourceSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    description: {
+    desc: {
       type: String,
     },
     slug: {
@@ -20,6 +20,10 @@ const ResourceSchema = new mongoose.Schema(
     },
     product: {
       type: String,
+    },
+    status: {
+      type: Boolean,
+      default: false,
     },
   },
   { timestamps: true }

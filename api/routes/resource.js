@@ -3,7 +3,7 @@ import {
   createResource,
   deleteResource,
   getResource,
-  getCategories,
+  getResources,
   updateResource,
   updateResourceAvailability,
 } from "../controllers/resource.js";
@@ -25,6 +25,6 @@ router.delete("/:id", verifyAdmin, deleteResource);
 router.get("/:id", getResource);
 
 //GET ALL
-router.get("/", getCategories);
+router.get("/", getResources);
 
 export default router;

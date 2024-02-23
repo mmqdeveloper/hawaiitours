@@ -9,17 +9,8 @@ import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
 const NewResource = () => {
-  const [info, setInfo] = useState({
-    name: "",
-    description: "",
-    slug: "",
-    image: "",
-    calendar: "",
-    product: "",
-  });
-
+  const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
-
   const { data, loading, error } = useFetch("/product");
 
   const handleChange = (e) => {
@@ -30,16 +21,11 @@ const NewResource = () => {
     setFile(e.target.files[0]);
   };
 
-  const handleCalendarChange = (date) => {
-    setInfo((prev) => ({ ...prev, calendar: date }));
-  };
-
   const handleClick = async (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "upload");
-    
     try {
       let url;
 
@@ -56,6 +42,7 @@ const NewResource = () => {
       const newResource = {
         ...info,
         image: url,
+        product: info.product,
       };
 
       await axios.post(`/resource/add`, newResource);
@@ -64,6 +51,7 @@ const NewResource = () => {
     }
   };
 
+  console.log(info);
   return (
     <div className="new">
       <Sidebar />
@@ -111,7 +99,7 @@ const NewResource = () => {
                 <input
                   type="file"
                   id="file"
-                  onChange={handleFileChange}
+                  onChange={(e) => setFile(e.target.files[0])}
                   style={{ display: "none" }}
                 />
               </div>
@@ -127,6 +115,13 @@ const NewResource = () => {
                       data.map((product) => (
                         <option key={product._id} value={product._id}>{product.name}</option>
                       ))}
+                </select>
+              </div>
+              <div className="formInput">
+                <label>Status</label>
+                <select id="status" onChange={handleChange}>
+                  <option value={false}>Private</option>
+                  <option value={true}>Public</option>
                 </select>
               </div>
               <button onClick={handleClick}>Send</button>
