@@ -6,7 +6,7 @@ import NewUser from "./pages/user/NewUser";
 import Booking from "./pages/booking/booking"
 import EditUser from "./pages/user/EditUser";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { categoryInputs, productInputs, userInputs } from "./formSource";
+import { categoryInputs, productInputs, userInputs, resourceInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
@@ -15,9 +15,11 @@ import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns
 import NewHotel from "./pages/hotel/NewHotel";
 import NewRoom from "./pages/room/NewRoom";
 import NewProduct from "./pages/product/NewProduct";
+import EditProduct from "./pages/product/EditProduct";
 import NewCategory from "./pages/category/NewCategory";
 import EditCategory from "./pages/category/EditCategory";
-import EditProduct from "./pages/product/EditProduct";
+import NewResource from "./pages/resource/NewResource";
+import EditResource from "./pages/resource/EditResource";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -216,6 +218,30 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <List columns={ResourceColumns} />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path=":resourceId"
+                element={
+                  <ProtectedRoute>
+                    <Single />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="new"
+                element={
+                  <ProtectedRoute>
+                    <NewResource  />
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="edit/:resourceId"
+                element={
+                  <ProtectedRoute>
+                    <EditResource inputs={resourceInputs} title="Edit Resource" />
                   </ProtectedRoute>
                 }
               />

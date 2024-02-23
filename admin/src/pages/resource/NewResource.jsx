@@ -2,14 +2,21 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import { categoryInputs } from "../../formSource";
+import { resourceInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
-const NewCategory = () => {
-  const [info, setInfo] = useState({});
+const NewResource = () => {
+  const [info, setInfo] = useState({
+    name: "",
+    description: "",
+    slug: "",
+    image: "",
+    calendar: "",
+    product: "",
+  });
+
   const [file, setFile] = useState("");
-  const [category, setCategory] = useState([]);
 
   const { data, loading, error } = useFetch("/product");
 
@@ -17,11 +24,16 @@ const NewCategory = () => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
   const handleClick = async (e) => {
     e.preventDefault();
     const data = new FormData();
     data.append("file", file);
     data.append("upload_preset", "upload");
+    
     try {
       let url;
 
@@ -35,17 +47,17 @@ const NewCategory = () => {
         url = "https://icon-library.com/images/no-image-icon/no-image-icon-0.jpg";
       }
 
-      const newCategory = {
+      const newResource = {
         ...info,
         image: url,
       };
-      await axios.post(`/category/add`, newCategory );
+
+      await axios.post(`/resource/add`, newResource);
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log(info)
   return (
     <div className="new">
       <Sidebar />
@@ -57,7 +69,7 @@ const NewCategory = () => {
         <div className="bottom">
           <div className="right">
             <form>
-              {categoryInputs.map((input) => (
+              {resourceInputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
                   <input
@@ -87,21 +99,30 @@ const NewCategory = () => {
                   }
                   alt=""
                 />
-                <label htmlFor="file"> 
+                <label htmlFor="file">
                   <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
                   type="file"
                   id="file"
-                  onChange={(e) => setFile(e.target.files[0])}
+                  onChange={handleFileChange}
                   style={{ display: "none" }}
                 />
               </div>
-              {/* <div className="formInput">
-                <label>Choose a Product</label>
+              <div className="formInput">
+                <label>Calendar</label>
+                <input
+                  id="calendar"
+                  type="date"
+                  placeholder=""
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="formInput">
+                <label>Product</label>
                 <select
-                  id="productId"
-                  onChange={(e) => setProductId(e.target.value)}
+                  id="product"
+                  onChange={handleChange}
                 >
                   {loading
                     ? "loading"
@@ -110,7 +131,7 @@ const NewCategory = () => {
                         <option key={product._id} value={product._id}>{product.name}</option>
                       ))}
                 </select>
-              </div> */}
+              </div>
               <button onClick={handleClick}>Send</button>
             </form>
           </div>
@@ -120,4 +141,4 @@ const NewCategory = () => {
   );
 };
 
-export default NewCategory;
+export default NewResource;

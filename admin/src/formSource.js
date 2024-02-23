@@ -212,3 +212,18 @@ export const categoryInputs = [
     placeholder: "",
   },
 ];
+
+export const resourceInputs = [
+  {
+    id: "name",
+    label: "Name",
+    type: "text",
+    placeholder: "",
+  },
+  {
+    id: "slug",
+    label: "Slug",
+    type: "text",
+    placeholder: "",
+  },
+];
