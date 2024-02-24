@@ -281,7 +281,7 @@ export const resourceColumns = [
     width: 230,
   },
   {
-    field: "description",
+    field: "desc",
     headerName: "Description",
     width: 500,
   },
@@ -293,6 +293,11 @@ export const resourceColumns = [
   {
     field: "product",
     headerName: "Product",
+    width: 100,
+  },
+  {
+    field: "status",
+    headerName: "Status",
     width: 100,
   },
 ];
