@@ -15,11 +15,8 @@ const ResourceSchema = new mongoose.Schema(
     image: {
       type: String,
     },
-    calendar:{
-      type: Date,
-    },
     product: {
-      type: String,
+      type: [String],
     },
     status: {
       type: Boolean,

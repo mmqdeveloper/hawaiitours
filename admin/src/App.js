@@ -11,7 +11,7 @@ import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
-import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns, BookingColumns, ResourceColumns } from "./datatablesource";
+import { hotelColumns, roomColumns, userColumns, productColumns, categoryColumns, BookingColumns, resourceColumns } from "./datatablesource";
 import NewHotel from "./pages/hotel/NewHotel";
 import NewRoom from "./pages/room/NewRoom";
 import NewProduct from "./pages/product/NewProduct";
@@ -217,12 +217,12 @@ function App() {
                 index
                 element={
                   <ProtectedRoute>
-                    <List columns={ResourceColumns} />
+                    <List columns={resourceColumns} />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path=":resourceId"
+                path=":productId"
                 element={
                   <ProtectedRoute>
                     <Single />
@@ -233,12 +233,12 @@ function App() {
                 path="new"
                 element={
                   <ProtectedRoute>
-                    <NewResource  />
+                    <NewResource />
                   </ProtectedRoute>
                 }
               />
               <Route
-                path="edit/:resourceId"
+                path="edit/:productId"
                 element={
                   <ProtectedRoute>
                     <EditResource inputs={resourceInputs} title="Edit Resource" />

@@ -260,7 +260,7 @@ export const BookingColumns = [
   },
 ];
 
-export const ResourceColumns = [
+export const resourceColumns = [
   { field: "_id", headerName: "ID", width: 250 },
   {
     field: "image",
@@ -288,6 +288,11 @@ export const ResourceColumns = [
   {
     field: "slug",
     headerName: "Slug",
+    width: 100,
+  },
+  {
+    field: "product",
+    headerName: "Product",
     width: 100,
   },
 ];

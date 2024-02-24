@@ -3,7 +3,7 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { resourceInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
@@ -11,14 +11,24 @@ import axios from "axios";
 const NewResource = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
+  const [product, setProduct] = useState([]);
+
   const { data, loading, error } = useFetch("/product");
+
+  useEffect(() => {
+    if (data) {
+      setProduct(data);
+    }
+  }, [data]);
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+  const handleSelect = (e) => {
+    const value = Array.from(e.target.selectedOptions, (option) => option.value);
+    console.log(value)
+    setProduct(value);
   };
 
   const handleClick = async (e) => {
@@ -41,9 +51,10 @@ const NewResource = () => {
 
       const newResource = {
         ...info,
+        product: product,
         image: url,
-        product: info.product,
       };
+      console.log()
 
       await axios.post(`/resource/add`, newResource);
     } catch (err) {
@@ -51,7 +62,7 @@ const NewResource = () => {
     }
   };
 
-  console.log(info);
+  console.log(info)
   return (
     <div className="new">
       <Sidebar />
@@ -105,16 +116,14 @@ const NewResource = () => {
               </div>
               <div className="formInput">
                 <label>Product</label>
-                <select
-                  id="product"
-                  onChange={handleChange}
-                >
-                  {loading
-                    ? "loading"
-                    : data &&
-                      data.map((product) => (
-                        <option key={product._id} value={product._id}>{product.name}</option>
-                      ))}
+                <select id="product" onChange={handleSelect} value={product}>
+                  <option value="None">None</option>
+                    {loading
+                      ? "loading"
+                      : data &&
+                        data.map((product) => (
+                          <option key={product._id} value={product.name}>{product.name}</option>
+                        ))}
                 </select>
               </div>
               <div className="formInput">
@@ -124,7 +133,7 @@ const NewResource = () => {
                   <option value={true}>Public</option>
                 </select>
               </div>
-              <button onClick={handleClick}>Send</button>
+              <button className="btn-save" onClick={handleClick}>Send</button>
             </form>
           </div>
         </div>
