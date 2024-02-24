@@ -54,7 +54,6 @@ const NewResource = () => {
         product: product,
         image: url,
       };
-      console.log()
 
       await axios.post(`/resource/add`, newResource);
     } catch (err) {

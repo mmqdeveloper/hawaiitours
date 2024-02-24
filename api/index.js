@@ -40,6 +40,7 @@ app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
 app.use("/api/product", productRoute);
 app.use("/api/category", categoryRoute);
+app.use("/api/resource", productRoute);
 
 app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
