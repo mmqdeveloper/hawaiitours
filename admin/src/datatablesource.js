@@ -294,10 +294,30 @@ export const resourceColumns = [
     field: "product",
     headerName: "Product",
     width: 100,
+    renderCell: (params) => {
+      const productValue = Array.isArray(params.row.product) && params.row.product.length > 0
+        ? params.row.product.join(", ") 
+        : "None";
+  
+      return (
+        <div className="cellWithImg">
+          {productValue}
+        </div>
+      );
+    },
   },
   {
     field: "status",
     headerName: "Status",
     width: 100,
-  },
+    renderCell: (params) => {
+      const statusValue = params.row.status ? "Public" : "Private";
+  
+      return (
+        <div className="cellWithImg">
+          {statusValue}
+        </div>
+      );
+    },
+  },  
 ];

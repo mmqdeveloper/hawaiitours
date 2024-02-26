@@ -17,6 +17,7 @@ const ResourceSchema = new mongoose.Schema(
     },
     product: {
       type: [String],
+      default: [],
     },
     status: {
       type: Boolean,

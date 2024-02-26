@@ -4,32 +4,43 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import React, { useState, useEffect } from "react";
-import { resourceInputs } from "../../formSource";
-import useFetch from "../../hooks/useFetch";
+// import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 
 const NewResource = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
-  const [product, setProduct] = useState([]);
+  const [slug, setSlug] = useState("");
 
-  const { data, loading, error } = useFetch("/product");
+  // const [product, setProduct] = useState([]);
+
+  // const { data, loading, error } = useFetch("/product");
+
+  // useEffect(() => {
+  //   if (data) {
+  //     setProduct(data);
+  //   }
+  // }, [data]);
 
   useEffect(() => {
-    if (data) {
-      setProduct(data);
-    }
-  }, [data]);
+    const generatedSlug = info.name
+      ? info.name
+          .toLowerCase()
+          .replace(/[^a-zA-Z0-9 ]/g, "")
+          .replace(/\s+/g, "-")
+      : "";
+    setSlug(generatedSlug);
+  }, [info.name]);
+  
 
   const handleChange = (e) => {
     setInfo((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleSelect = (e) => {
-    const value = Array.from(e.target.selectedOptions, (option) => option.value);
-    console.log(value)
-    setProduct(value);
-  };
+  // const handleSelect = (e) => {
+  //   const value = Array.from(e.target.selectedOptions, (option) => option.value);
+  //   setProduct(value);
+  // };
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -51,7 +62,7 @@ const NewResource = () => {
 
       const newResource = {
         ...info,
-        product: product,
+        product: [],
         image: url,
       };
 
@@ -73,17 +84,26 @@ const NewResource = () => {
         <div className="bottom">
           <div className="right">
             <form>
-              {resourceInputs.map((input) => (
-                <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    id={input.id}
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={handleChange}
-                  />
-                </div>
-              ))}
+              <div className="formInput">
+                <label>Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  placeholder="Enter name"
+                  value={info.name}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="formInput">
+                <label>Slug</label>
+                <input
+                  id="slug"
+                  type="text"
+                  placeholder="Enter slug"
+                  value={slug}
+                  onChange={(e) => setSlug(e.target.value)}
+                />
+              </div>
               <div className="formInput">
                 <label>Description</label>
                 <ReactQuill
@@ -113,7 +133,7 @@ const NewResource = () => {
                   style={{ display: "none" }}
                 />
               </div>
-              <div className="formInput">
+              {/* <div className="formInput">
                 <label>Product</label>
                 <select id="product" onChange={handleSelect} value={product}>
                   <option value="None">None</option>
@@ -124,7 +144,7 @@ const NewResource = () => {
                           <option key={product._id} value={product.name}>{product.name}</option>
                         ))}
                 </select>
-              </div>
+              </div> */}
               <div className="formInput">
                 <label>Status</label>
                 <select id="status" onChange={handleChange}>
