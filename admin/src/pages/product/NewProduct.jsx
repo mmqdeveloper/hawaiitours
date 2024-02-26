@@ -13,7 +13,7 @@ const NewProduct = () => {
   const [file, setFile] = useState("");
   const [category, setCategory] = useState([]);
   const [userList, setUserList] = useState([]);
-  
+
   const { data: categoryData, loading: categoryLoading, error: categoryError } = useFetch("/category");
 
   useEffect(() => {
@@ -254,11 +254,11 @@ const NewProduct = () => {
                   {categoryLoading
                     ? "Loading"
                     : categoryData &&
-                      categoryData.map((cat) => (
-                        <option key={cat._id} value={cat.name}>
-                          {cat.name}
-                        </option>
-                      ))}
+                    categoryData.map((cat) => (
+                      <option key={cat._id} value={cat.name}>
+                        {cat.name}
+                      </option>
+                    ))}
                 </select>
               </div>
 

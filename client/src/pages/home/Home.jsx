@@ -12,18 +12,16 @@ const Home = () => {
   return (
     <div>
       <Navbar />
-      <Header/>
+      <Header />
       <div className="homeContainer">
-        <Featured/>
-        <h1 className="homeTitle">Product</h1>
-        <AllProduct/>
-        <h1 className="homeTitle">Browse by property type</h1>
-        <PropertyList/>
-        <h1 className="homeTitle">Homes guests love</h1>
-        <FeaturedProperties/>
-        <MailList/>
-        <Footer/>
+        <Featured />
+        {/* <h1 className="homeTitle">Product</h1> */}
+        <AllProduct />
+        <PropertyList />
+        <FeaturedProperties />
+        <MailList />
       </div>
+      <Footer />
     </div>
   );
 };

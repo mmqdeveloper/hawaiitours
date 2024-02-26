@@ -1,7 +1,8 @@
 /* ProductDetail.css */
-.productDetailContainer .paypal-buttons:nth-child(2){
+.productDetailContainer .paypal-buttons:nth-child(2) {
   display: none !important;
 }
+
 .productDetailContainer {
   max-width: 800px;
   margin: 0 auto;
@@ -78,6 +79,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }

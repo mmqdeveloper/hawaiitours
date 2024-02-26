@@ -1,3 +1,11 @@
+import {
+  faBed,
+  faCar,
+  faPlane,
+  faTaxi,
+  faRightToBracket,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./navbar.css";
 import axios from 'axios';
 import { Link, useNavigate } from "react-router-dom";
@@ -20,25 +28,42 @@ const Navbar = () => {
 
   return (
     <div className="navbar">
-      <div className="navContainer">
-        <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
-          <span className="logo">Super Tours</span>
-        </Link>
-        {user ? (
-          <div className="navItems">
-            <span>{user.username}</span>
-            <button className="navButton" onClick={handleLogout}>
-              Logout
-            </button>
-          </div>
-        ) : (
-          <div className="navItems">
-            <Link to="/login" style={{ textDecoration: "none" }}>
-              <button className="navButton">Login</button>
-            </Link>
-          </div>
-        )}
+      <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>
+        <div className="logo">Super Tours</div>
+      </Link>
+      <div className="headerList">
+        <a href="#" className="headerListItem active">
+          <FontAwesomeIcon icon={faBed} />
+          <span>Stays</span>
+        </a>
+        <a href="#" className="headerListItem">
+          <FontAwesomeIcon icon={faPlane} />
+          <span>Flights</span>
+        </a>
+        <a href="#" className="headerListItem">
+          <FontAwesomeIcon icon={faCar} />
+          <span>Car rentals</span>
+        </a>
+        <a href="#" className="headerListItem">
+          <FontAwesomeIcon icon={faBed} />
+          <span>Attractions</span>
+        </a>
+        <a href="#" className="headerListItem">
+          <FontAwesomeIcon icon={faTaxi} />
+          <span>Airport taxis</span>
+        </a>
       </div>
+      {user ? (
+        <div className="navItems">
+          <FontAwesomeIcon icon={faRightToBracket} className="navLogout" onClick={handleLogout} />
+        </div>
+      ) : (
+        <div className="navItems">
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <button className="navButton">Login</button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 };

@@ -30,7 +30,7 @@ const AllProduct = () => {
 
   return (
     <div className="allProductContainer">
-      <h2 className="allProductHeading">All Products</h2>
+      <h2 className="allProductHeading">Featured Tours</h2>
       <ul className="productList">
         {products.map((product) => (
           product.status && (
@@ -41,9 +41,16 @@ const AllProduct = () => {
                   alt={product.name}
                   className="productImage"
                 />
-                <h3 className="productName">{product.name}</h3>
-                <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
-                <p className="productPrice">{product.price}</p>
+                <div className="info">
+                  <h3 className="productName">{product.name}</h3>
+                  <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
+                  <p className="productPrice">
+                    <span>From</span>
+                    <span className="price">
+                      ${product.price}
+                    </span>
+                  </p>
+                </div>
               </a>
             </li>
           )
