@@ -14,24 +14,27 @@ const PropertyList = () => {
   ];
   return (
     <div className="pList">
-      {loading ? (
-        "loading"
-      ) : (
-        <>
-          {data &&
-            data.map((item, i) => (
-              <Link to={`/hotels?type=${item.type}`} key={i} className="pListItemLink">
-                <div className="pListItem">
-                  <img src={images[i]} alt="" className="pListImg" />
-                  <div className="pListTitles">
-                    <h1>{item.type}</h1>
-                    <h2>{item.count} {item.type}</h2>
+      <h2 className="pListTitle">Outstanding Hotel</h2>
+      <div className="plist_wrap">
+        {loading ? (
+          "loading"
+        ) : (
+          <>
+            {data &&
+              data.map((item, i) => (
+                <Link to={`/hotels?type=${item.type}`} key={i} className="pListItemLink">
+                  <div className="pListItem">
+                    <img src={images[i]} alt="" className="pListImg" />
+                    <div className="pListTitles">
+                      <h1>{item.type}</h1>
+                      <h2>{item.count} {item.type}</h2>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            ))}
-        </>
-      )}
+                </Link>
+              ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };

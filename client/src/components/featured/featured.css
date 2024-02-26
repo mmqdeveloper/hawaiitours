@@ -6,7 +6,7 @@
   gap: 20px;
   z-index: 1;
   flex-wrap: wrap;
-  padding: 50px 0px;
+  padding: 80px 0px;
 }
 
 .featuredItem {
@@ -38,10 +38,9 @@
 
 .featuredItem:hover .featuredTitles {
   transform: translateY(0px);
-
 }
 
-.featuredItem .featuredTitles .properties {
+.featuredItem .featuredTitles .tour {
   font-size: 18px;
   opacity: 0;
   visibility: hidden;
@@ -49,7 +48,7 @@
 
 }
 
-.featuredItem:hover .featuredTitles .properties {
+.featuredItem:hover .featuredTitles .tour {
   opacity: 1;
   visibility: visible;
 }
@@ -58,4 +57,5 @@
   text-align: center;
   width: 100%;
   font-size: 36px;
+  line-height: 28px;
 }

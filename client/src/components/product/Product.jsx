@@ -30,7 +30,7 @@ const AllProduct = () => {
 
   return (
     <div className="allProductContainer">
-      <h2 className="allProductHeading">All Products</h2>
+      <h2 className="allProductHeading">Featured Tours</h2>
       <ul className="productList">
         {products.map((product) => (
           product.status && (
