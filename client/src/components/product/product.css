@@ -34,6 +34,24 @@
 .productItem a {
   text-decoration: none;
   color: #000;
+  position: relative;
+  height: max-content;
+  display: block;
+}
+
+.stickFeatured {
+  width: 100%;
+  padding: 4px 8px;
+  background: red;
+  position: absolute;
+  top: 20px;
+  left: calc(-45% - -10px);
+  font-size: 14px;
+  color: white;
+  font-weight: 600;
+  border-radius: 4px;
+  transform: rotate(-45deg);
+  text-align: center;
 }
 
 .productImage {
@@ -47,10 +65,25 @@
   margin: 6px 0px 15px;
 }
 
+.productFeedback,
+.list-star {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.list-star {
+  gap: 4px;
+}
+
+.list-star svg {
+  font-size: 14px;
+  color: #ffb21d;
+}
+
 .productDescription {
   font-size: 14px;
   color: #555;
-  margin-bottom: 15px;
 }
 
 .productItem {

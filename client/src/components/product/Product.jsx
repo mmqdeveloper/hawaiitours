@@ -1,8 +1,13 @@
 // AllProduct.js
+import {
+  faStar
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./product.css";
 import ReactHtmlParser from 'react-html-parser';
+
 
 const AllProduct = () => {
   const [products, setProducts] = useState([]);
@@ -41,9 +46,19 @@ const AllProduct = () => {
                   alt={product.name}
                   className="productImage"
                 />
+                <div className="stickFeatured">Featured</div>
                 <div className="info">
                   <h3 className="productName">{product.name}</h3>
-                  <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
+                  <div className="productFeedback">
+                    <div className="list-star">
+                      <FontAwesomeIcon icon={faStar} className="starIcon" />
+                      <FontAwesomeIcon icon={faStar} className="starIcon" />
+                      <FontAwesomeIcon icon={faStar} className="starIcon" />
+                      <FontAwesomeIcon icon={faStar} className="starIcon" />
+                      <FontAwesomeIcon icon={faStar} className="starIcon" />
+                    </div>
+                    <p className="productDescription">{ReactHtmlParser(product.desc)}</p>
+                  </div>
                   <p className="productPrice">
                     <span>From</span>
                     <span className="price">

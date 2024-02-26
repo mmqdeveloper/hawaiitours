@@ -55,6 +55,7 @@ const Navbar = () => {
       </div>
       {user ? (
         <div className="navItems">
+          <span>{user.username}</span>
           <FontAwesomeIcon icon={faRightToBracket} className="navLogout" onClick={handleLogout} />
         </div>
       ) : (
