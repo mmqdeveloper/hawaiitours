@@ -8,11 +8,7 @@ import { useState, useEffect } from "react";
 import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+
 const NewCategory = () => {
   const [info, setInfo] = useState({});
   const [file, setFile] = useState("");
@@ -77,17 +73,18 @@ const NewCategory = () => {
       <div className="newContainer">
         <Navbar />
         <div className="top">
+          <h1>Add New Category</h1>
         </div>
         <div className="bottom">
           <div className="right">
             <form>
-              <h1>Add New Category</h1>
               {categoryInputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  <TextField
+                  <label>{input.label}</label>
+                  <input
                     id={input.id}
-                    label={input.label}
-                    variant="outlined"
+                    type={input.type}
+                    placeholder={input.placeholder}
                     onChange={handleChange}
                   />
                 </div>
@@ -102,18 +99,18 @@ const NewCategory = () => {
                   <option value="None">None</option>
                   {category.map((category) => (
                     <option key={category._id} value={category._id}>
-                      {category.parentCategory && category.parentCategory !== "None" ? '━' : ''}{category.name}
+                      {category.parentCategory && category.parentCategory !== "None" ? '━ ' : ''}{category.name}
                     </option>
                   ))}
                 </select>
               </div>
               <div className="formInput">
                 <label>Description</label>
-                <input
-                  id="description"
-                  type="text"
-                  placeholder=""
-                  onChange={handleChange}
+                <ReactQuill
+                  id="desc"
+                  onChange={(value) => handleChange({ target: { id: 'desc', value } })}
+                  placeholder="Enter description"
+                  value={info.desc || ""}
                 />
               </div>
               <div className="formInput">
@@ -146,4 +143,3 @@ const NewCategory = () => {
 };
 
 export default NewCategory;
-

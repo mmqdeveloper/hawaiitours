@@ -9,11 +9,8 @@ import { categoryInputs } from "../../formSource";
 import useFetch from "../../hooks/useFetch";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import TextField from '@mui/material/TextField';
-import MenuItem from '@mui/material/MenuItem';
-import Select from '@mui/material/Select';
-import InputLabel from '@mui/material/InputLabel';
-import FormControl from '@mui/material/FormControl';
+
+
 const EditCategory = () => {
   const { categoryId } = useParams();
 
@@ -92,6 +89,9 @@ const EditCategory = () => {
       <Sidebar />
       <div className="newContainer editContainer">
         <Navbar />
+        <div className="top">
+          <h1>Edit Category</h1>
+        </div>
         <div className="bottom">
           <div className="right">
             <form>
@@ -120,12 +120,11 @@ const EditCategory = () => {
               </div>
               <div className="formInput">
                 <label>Description</label>
-                <input
-                  id="description"
-                  type="text"
-                  placeholder=""
-                  onChange={handleChange}
-                  value={info.description || ""}
+                <ReactQuill
+                  id="desc"
+                  onChange={(value) => handleChange({ target: { id: 'desc', value } })}
+                  placeholder="Enter description"
+                  value={info.desc || ""}
                 />
               </div>
               <div className="formInput">
